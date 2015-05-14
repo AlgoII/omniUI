@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<edificio>
+
+<departamento
+	name="5"
+	piso="2"
+	titual="Monica"
+/>
+
+<departamento
+	name="6"
+	piso="2"
+	titular="Raul"
+/>
+
+</edificio>
+	
