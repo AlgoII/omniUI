@@ -23,13 +23,15 @@ public class AplicacionConverter implements Converter {
 		Aplicacion aplicacion = (Aplicacion) obj;
 		writer.addAttribute("nombre", aplicacion.getNombre());
 		writer.addAttribute("descripcion", aplicacion.getDescripcion());	
-		
+
 		List<Argumento> argumentos = aplicacion.getArgumentos();
 		if (!argumentos.isEmpty()) {
 			writer.startNode("argumentos"); 
 
-			for (Argumento argumento: argumentos) {				
+			for (Argumento argumento: argumentos) {
+				writer.startNode("argumento");
 				ctx.convertAnother(argumento);				
+				writer.endNode();
 			}
 
 			writer.endNode();
@@ -38,26 +40,26 @@ public class AplicacionConverter implements Converter {
 
 	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext ctx) {
-		
+
 		Aplicacion aplicacion = new Aplicacion();
-		
+
 		aplicacion.setNombre(reader.getAttribute("nombre"));
 		aplicacion.setDescripcion(reader.getAttribute("descripcion"));
-		
+
 		reader.moveDown();
-		
+
 		if ("argumentos".equals(reader.getNodeName())) {
-			
+
 			@SuppressWarnings("unchecked")
 			List<Argumento> argumentos =  (List<Argumento>) ctx.convertAnother(aplicacion,List.class);             
-			
-			 for(Argumento a: argumentos)
-				 aplicacion.addArgumento(a);
 
-		 }
-		
+			for(Argumento a: argumentos)
+				aplicacion.addArgumento(a);
+
+		}
+
 		reader.moveUp();
-		
+
 		return aplicacion;
 	}
 

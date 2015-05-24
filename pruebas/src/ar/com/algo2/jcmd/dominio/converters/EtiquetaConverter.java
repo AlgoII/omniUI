@@ -2,39 +2,24 @@ package ar.com.algo2.jcmd.dominio.converters;
 
 import ar.com.algo2.jcmd.dominio.Etiqueta;
 
-import com.thoughtworks.xstream.converters.Converter;
-import com.thoughtworks.xstream.converters.MarshallingContext;
-import com.thoughtworks.xstream.converters.UnmarshallingContext;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.converters.SingleValueConverter;
 
-public class EtiquetaConverter implements Converter {
+//si extiendo de AbastractSingleValue, el toString usa el toString de la clase, por eso no me sirves
+
+public class EtiquetaConverter implements SingleValueConverter {
 
 	@Override
 	public boolean canConvert(@SuppressWarnings("rawtypes") Class clazz) {
-		return clazz.equals(Etiqueta.class); 
+		return clazz.equals(Etiqueta.class);
 	}
 
 	@Override
-	public void marshal(Object obj, HierarchicalStreamWriter writer, MarshallingContext ctx) {
-		
-		Etiqueta etiqueta = (Etiqueta) obj;		
-//		writer.startNode("etiqueta");
-		writer.addAttribute("valor", etiqueta.getValor());
-//		writer.endNode();
+	public Object fromString(String value) {
+		return new Etiqueta(value);
 	}
 
 	@Override
-	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext ctx) {
-		
-		
-		
-		Etiqueta etiqueta = new Etiqueta();
-//		reader.moveDown();
-		etiqueta.setValor(reader.getValue());
-//		reader.moveUp();
-			
-		return etiqueta;
+	public String toString(Object obj) {
+		return ((Etiqueta) obj).getValor();
 	}
-
 }

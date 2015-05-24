@@ -14,7 +14,7 @@ public class ArgumentoConverter implements Converter {
 
 	@Override
 	public boolean canConvert(@SuppressWarnings("rawtypes") Class clazz) {		
-		return Argumento.class == clazz;
+		return clazz.equals(Argumento.class);
 	}
 
 	@Override
@@ -26,7 +26,6 @@ public class ArgumentoConverter implements Converter {
 		writer.addAttribute("tipo", ""+argumento.getTipo());
 		writer.addAttribute("descripcion", ""+argumento.getDescripcion());
 		writer.addAttribute("optional", ""+argumento.getOptional());
-		writer.addAttribute("valor", ""+argumento.getValor());
 		
 		if (argumento.getEtiqueta() != null) {
 			writer.startNode("etiqueta"); 
@@ -40,12 +39,11 @@ public class ArgumentoConverter implements Converter {
 
 	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext ctx) {
-		Argumento argumento = new Argumento();
+		Argumento argumento = new Argumento();			
 		argumento.setOrden(new Long(reader.getAttribute("orden")));
 		argumento.setTipo(reader.getAttribute("tipo"));
 		argumento.setDescripcion(reader.getAttribute("descripcion"));
 		argumento.setOptional(new Boolean(reader.getAttribute("optional")));
-		argumento.setValor(reader.getValue());
 		reader.moveDown();
 		
 		 if ("etiqueta".equals(reader.getNodeName())) {

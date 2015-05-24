@@ -6,7 +6,6 @@ public class Argumento {
 	private String tipo;
 	private String descripcion;
 	private Boolean optional;
-	private String valor;
 	private Etiqueta etiqueta;
 	
 	public Long getOrden() {
@@ -39,18 +38,12 @@ public class Argumento {
 	public void setOptional(Boolean optional) {
 		this.optional = optional;
 	}
-	public String getValor() {
-		return valor;
-	}
-	public void setValor(String valor) {
-		this.valor = valor;
-	}
 		
 	@Override
 	public String toString() {
 		return "Argumento [orden=" + orden + ", tipo=" + tipo
 				+ ", descripcion=" + descripcion + ", optional=" + optional
-				+ ", valor=" + valor + ", etiqueta=" + etiqueta.toString() + "]";
+				+ ", etiqueta=" + etiqueta.toString() + "]";
 	}
 	public Argumento() {}
 }
