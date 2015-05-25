@@ -40,6 +40,7 @@ public class Aplicacion {
 	}
 	
 	public Aplicacion() {}
+	
 	@Override
 	public String toString() {
 		
