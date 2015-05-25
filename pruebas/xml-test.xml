@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lanzador>
+	<comando nombre="calculadora" alias="Calculadora" descripcion="calculadora de linea de comando">
+		<aplicaciones>
+			<aplicacion nombre="suma" descripcion="sumatoria de dos numeros">
+				<argumentos>								
+					<argumento orden="1" tipo="Number" descripcion="primer operando de la suma" optional="false">
+						<etiqueta>Operando</etiqueta>						
+					</argumento>
+					<argumento orden="2" tipo="Number" descripcion="segundo operando de la suma" optional="false">
+						<etiqueta>Operando</etiqueta>
+					</argumento>
+					<argumento orden="3" nombre="-m" tipo="Text" descripcion="mensaje a desplegar" optional="true">
+						<etiqueta>Mensaje</etiqueta>
+					</argumento>																									
+				</argumentos>
+			</aplicacion>
+			<aplicacion nombre="resta" descripcion="resta de dos numeros">
+				<argumentos>								
+					<argumento orden="1" tipo="Number" descripcion="primer operando de la resta" optional="false">
+						<etiqueta>Operando</etiqueta>						
+					</argumento>
+					<argumento orden="2" tipo="Number" descripcion="segundo operando de la resta" optional="false">
+						<etiqueta>Operando</etiqueta>
+					</argumento>													
+				</argumentos>
+			</aplicacion>						
+		</aplicaciones>				
+	</comando>	
+</lanzador>

@@ -1,0 +1,17 @@
+
+		<aplicacion nombre="suma" descripcion="sumatoria de dos numeros">
+			<argumentos>
+				<argumento orden="1" tipo="Number" descripcion="primer operando de la suma"
+					optional="false" mask="#">
+					<etiqueta>Operando 1</etiqueta>
+				</argumento>
+				<argumento orden="2" tipo="Number" descripcion="segundo operando de la suma"
+					optional="false">
+					<etiqueta>Operando 2</etiqueta>
+				</argumento>
+				<argumento orden="3" nombre="-m" tipo="Text"
+					descripcion="mensaje a desplegar" optional="true">
+					<etiqueta>Mensaje</etiqueta>
+				</argumento>
+			</argumentos>
+		</aplicacion>

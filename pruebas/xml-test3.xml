@@ -1,0 +1,3 @@
+<argumento orden="1" tipo="Number" descripcion="primer operando de la suma" optional="false">
+		<etiqueta>Operando</etiqueta>						
+</argumento>

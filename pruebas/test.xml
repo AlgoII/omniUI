@@ -1,0 +1,76 @@
+<lanzador>
+	<comando nombre="calculadora" alias="Calculadora"
+		descripcion="calculadora de linea de comando">
+		<aplicaciones>
+			<aplicacion nombre="suma" descripcion="sumatoria de dos numeros">
+				<argumentos>
+					<argumento orden="1" tipo="Number" descripcion="primer operando de la suma"
+						optional="false" mask="##.##">
+						<etiqueta>Operando</etiqueta>
+					</argumento>
+					<argumento orden="2" tipo="Number" descripcion="segundo operando de la suma"
+						optional="false">
+						<etiqueta>
+							Operando
+						</etiqueta>
+					</argumento>
+					<argumento orden="3" nombre="-m" tipo="Text"
+						descripcion="mensaje a desplegar" optional="true">
+						<etiqueta>
+							Mensaje
+						</etiqueta>
+					</argumento>
+					<argumento orden="4" nombre="-d" tipo="Date"
+						descripcion="mensaje a desplegar" optional="true" formato="YYYYDDMM">
+						<etiqueta>
+							Fecha
+						</etiqueta>
+					</argumento>
+				</argumentos>
+			</aplicacion>
+			<aplicacion nombre="resta" descripcion="resta de dos numeros">
+				<argumentos>
+					<argumento orden="1" tipo="Number" descripcion="primer operando de la resta"
+						optional="false">
+						<etiqueta>
+							Operando
+						</etiqueta>
+					</argumento>
+					<argumento orden="2" tipo="Number" descripcion="segundo operando de la resta"
+						optional="false">
+						<etiqueta>
+							Operando
+						</etiqueta>
+					</argumento>
+					<argumento orden="3" tipo="ComboBox" descripcion="segundo operando de la resta"
+						optional="false">
+						<etiqueta>
+							Operando
+						</etiqueta>
+						<valores>
+							<valor>all</valor>
+							<valor>normal</valor>
+							<valor>no</valor>
+						</valores>
+					</argumento>
+				</argumentos>
+			</aplicacion>
+		</aplicaciones>
+		<salida>./input/archivo.txt</salida>
+	</comando>
+	<comando nombre="echo">
+		<aplicaciones>
+			<aplicacion>
+				<argumentos>
+					<argumento>
+						<etiqueta>
+							Mensaje
+						</etiqueta>
+					</argumento>
+				</argumentos>
+			</aplicacion>
+		</aplicaciones>
+		<salida>./input/archivo2.txt</salida>
+	</comando>
+</lanzador>
+
