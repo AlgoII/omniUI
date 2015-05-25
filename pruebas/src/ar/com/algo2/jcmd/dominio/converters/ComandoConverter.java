@@ -21,9 +21,10 @@ public class ComandoConverter implements Converter {
 	@Override
 	public void marshal(Object obj, HierarchicalStreamWriter writer, MarshallingContext ctx) {
 		Comando comando = (Comando) obj;
-		writer.addAttribute("nombre", comando.getNombre());
-		writer.addAttribute("alias", comando.getAlias());
-		writer.addAttribute("descripcion", comando.getDescripcion());	
+		
+		writer.addAttribute("nombre", comando.getNombre());		
+		if (comando.getAlias() != null) writer.addAttribute("alias", comando.getAlias());
+		if (comando.getDescripcion() != null) writer.addAttribute("descripcion", comando.getDescripcion());	
 
 		List<Aplicacion> aplicaciones = comando.getAplicaciones();
 		if (!aplicaciones.isEmpty()) {
@@ -39,7 +40,7 @@ public class ComandoConverter implements Converter {
 		}
 		
 		if (comando.getOutput() != null) {
-			writer.startNode("output");
+			writer.startNode("salida");
 			ctx.convertAnother(comando.getOutput());
 			writer.endNode();
 		}

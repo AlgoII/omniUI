@@ -21,8 +21,8 @@ public class AplicacionConverter implements Converter {
 	@Override
 	public void marshal(Object obj, HierarchicalStreamWriter writer, MarshallingContext ctx) {
 		Aplicacion aplicacion = (Aplicacion) obj;
-		writer.addAttribute("nombre", aplicacion.getNombre());
-		writer.addAttribute("descripcion", aplicacion.getDescripcion());	
+		if (aplicacion.getNombre() != null) writer.addAttribute("nombre", aplicacion.getNombre());
+		if (aplicacion.getDescripcion() != null) writer.addAttribute("descripcion", aplicacion.getDescripcion());	
 
 		List<Argumento> argumentos = aplicacion.getArgumentos();
 		if (!argumentos.isEmpty()) {

@@ -22,19 +22,19 @@ public class ArgumentoConverter implements Converter {
 	public void marshal(Object obj, HierarchicalStreamWriter writer, MarshallingContext ctx) {	
 
 		Argumento argumento = (Argumento) obj;
-		writer.addAttribute("orden", ""+argumento.getOrden());
-		writer.addAttribute("tipo", ""+argumento.getTipo());
-		writer.addAttribute("descripcion", ""+argumento.getDescripcion());
-		writer.addAttribute("optional", ""+argumento.getOptional());
+		if (argumento.getOrden() != null) writer.addAttribute("orden", ""+argumento.getOrden());
+		if (argumento.getTipo() != null) writer.addAttribute("tipo", ""+argumento.getTipo());
+		if (argumento.getDescripcion() != null) writer.addAttribute("descripcion", ""+argumento.getDescripcion());
+		if (argumento.getOptional() != null) writer.addAttribute("optional", ""+argumento.getOptional());
 		
-		if (argumento.getTipo().equalsIgnoreCase("Number")) {
+		if (argumento.getTipo() != null && argumento.getTipo().equalsIgnoreCase("Number")) {
 			ArgumentoNumerico argumentoNumerico = (ArgumentoNumerico) obj;
 			String mask = argumentoNumerico.getMask();
 
 			if (mask != null)
 				writer.addAttribute("mask", mask);
 		}
-
+		
 		if (argumento.getEtiqueta() != null) {
 			writer.startNode("etiqueta"); 
 
@@ -56,8 +56,9 @@ public class ArgumentoConverter implements Converter {
 		 else if (reader.getAttribute("tipo").equalsIgnoreCase("Number")) {
 			 argumento = new ArgumentoNumerico(reader.getAttribute("mask"));
 		 }
-		 				
-		argumento.setOrden(new Long(reader.getAttribute("orden")));
+
+		
+		if (reader.getAttribute("orden") != null ) argumento.setOrden(new Long(reader.getAttribute("orden")));
 		argumento.setTipo(reader.getAttribute("tipo"));
 		argumento.setDescripcion(reader.getAttribute("descripcion"));
 		argumento.setOptional(new Boolean(reader.getAttribute("optional")));

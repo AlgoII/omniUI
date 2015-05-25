@@ -22,14 +22,16 @@ public class LanzadorConverter implements Converter {
 	@Override
 	public void marshal(Object obj, HierarchicalStreamWriter writer, MarshallingContext ctx) {
 		Lanzador lanzador = (Lanzador) obj;
-
+		
 		List<Comando> comandos = lanzador.getComandos();
-
+		
 		if (!comandos.isEmpty())
-			for (Comando comando: comandos)
-				ctx.convertAnother(comando);				
-
-
+			for (Comando comando: comandos) {	
+				writer.startNode("comando");
+				ctx.convertAnother(comando);
+				writer.endNode();
+			}
+				
 	}
 
 	@Override
@@ -39,9 +41,10 @@ public class LanzadorConverter implements Converter {
 
 		@SuppressWarnings("unchecked")
 		List<Comando> comandos =  (List<Comando>) ctx.convertAnother(lanzador,List.class);             
+						
+		for(Comando comando: comandos)	
+			lanzador.addComando(comando);
 
-		for(Comando comando: comandos) 			
-			lanzador.addComando(comando);	
 
 		return lanzador;
 
