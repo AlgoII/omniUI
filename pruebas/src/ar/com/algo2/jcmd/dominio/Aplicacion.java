@@ -7,6 +7,7 @@ public class Aplicacion {
 	
 	private String nombre;
 	private String descripcion;
+	private Comando comando;
 	private List<Argumento> argumentos = new ArrayList<Argumento>();
 	
 	public String getNombre() {
@@ -21,6 +22,12 @@ public class Aplicacion {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+	public Comando getComando() {
+		return comando;
+	}
+	public void setComando(Comando comando) {
+		this.comando = comando;
+	}	
 	public List<Argumento> getArgumentos() {
 		return argumentos;
 	}
@@ -50,7 +57,7 @@ public class Aplicacion {
 		
 		
 		return "Aplicacion [nombre=" + nombre + ", descripcion=" + descripcion
-				+ ", argumentos=" + "[\n" + buff.toString() +   "]";
+				+ ", comando.nombre=" + this.comando.getNombre() +  ", argumentos=" + "[\n" + buff.toString() +   "]";
 		
 		
 	}

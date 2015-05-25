@@ -61,8 +61,10 @@ public class ComandoConverter implements Converter {
 			@SuppressWarnings("unchecked")
 			List<Aplicacion> aplicaciones =  (List<Aplicacion>) ctx.convertAnother(comando,List.class);             
 
-			for(Aplicacion a: aplicaciones)
-				comando.addAplicacion(a);
+			for(Aplicacion a: aplicaciones) {
+				a.setComando(comando);
+				comando.addAplicacion(a);				
+			}
 
 		}
 		reader.moveUp();
