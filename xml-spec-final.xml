@@ -4,34 +4,32 @@
 		<aplicaciones>
 			<aplicacion nombre="commit" descripcion="actualiza indice en el repositorio local">
 				<argumentos>
-					<grupo nombre="Verboso">
-						<argumento orden="1" nombre="-v" alternativo="--verbose" tipo="Boolean" default="true" descripcion="muestra lo comitteado" optional="true" enable="true">
+					<argumento orden="1" nombre="-v" alternativo="--verbose" descripcion="muestra lo comitteado" optional="true" enable="true" tipo="Boolean" valorInicial="true" >
 							<etiqueta>Verboso</etiqueta>							
-						</argumento>
-						<argumento orden="2" nombre="pathVerbose" tipo="Search" enable="false"/>
-					</grupo>					
-					<argumento orden="3" nombre="-m" alternativo="--message" tipo="Text" descripcion="mensaje del commit" optional="false">
+					</argumento>
+					<argumento orden="2" nombre="pathVerbose" auxiliar="true" enable="false"  tipo="Search" /> <!-- ficticio, no es del comando git. Representaría la ruta del archivo donde dejar el log del -v. Es para mostrar las validaciones generales de la aplicación (ver más abajo) -->
+					<argumento orden="3" nombre="-m" alternativo="--message" descripcion="mensaje del commit" optional="false" tipo="Text" >
 						<etiqueta>Mensaje para el log</etiqueta>
 						<reglas>
 							<regla>VALOR.contains(".log")</regla>
 						</reglas>
 					</argumento>
-					<argumento orden="4" nombre="-F" alternativo="--file" tipo="Search" descripcion="lee mensaje de archivo">
+					<argumento orden="4" nombre="-F" alternativo="--file" descripcion="lee mensaje de archivo" tipo="Search">
 						<etiqueta>Archivo origen del mensaje</etiqueta>
 					</argumento>
-					<argumento orden="5" nombre="-S" alternativo="--gpg-sign" tipo="Propertie" tipoValor="Text" descripcion="firma GPG" separador="=">
+					<argumento orden="5" nombre="-S" alternativo="--gpg-sign" separador="=" descripcion="firma GPG" tipo="Text">
 						<etiqueta>Key ID</etiqueta>
 					</argumento>
-					<argumento orden="6" nombre="-u" alternativo="--untracked-files" tipo="Propertie" descripcion="firma GPG" separador="=" tipoValor="ComboBox">
+					<argumento orden="6" nombre="-u" alternativo="--untracked-files" separador="=" descripcion="firma GPG" tipo="ComboBox">
 						<etiqueta>Modo</etiqueta>
-						<lista>
+						<valores>
 							<valor>all</valor>
 							<valor>normal</valor>
 							<valor>no</valor>
-						</lista>
+						</valores>
 					</argumento>
-					<argumento orden="7" nombre="--status" tipo="Boolean" default="false" descripcion="incluye status en el mensaje del commit" />
-					<argumento orden="8" nombre="-m" alternativo="--mainline"	descripcion="numero padre" tipo="Number" mask="#">
+					<argumento orden="7" nombre="--status" descripcion="incluye status en el mensaje del commit" tipo="Boolean" valorInicial="false" />
+					<argumento orden="8" nombre="-m" alternativo="--mainline" descripcion="numero padre" tipo="Number" mask="#">
 						<etiqueta>Version</etiqueta>
 						<reglas>
 							<regla>VALOR != null</regla>
@@ -43,6 +41,20 @@
 						<etiqueta>Fecha del commit</etiqueta>
 					</argumento>
 				</argumentos>
+				<validaciones>
+					<validacion>
+						<accion nombre="habilitarCampoSiCheckboxEstaEnTrue">
+							<parametro>-v</parametro>
+							<parametro>pathVerbose</parametro>
+						</accion>
+					</validacion>
+					<validacion>
+						<accion nombre="mostrarFechaEnFormatoLatino">					
+							<constante>La fecha de hoy es: </constante>
+							<parametro>--date</parametro>
+						</accion>
+					</validacion>
+				</validaciones>
 			</aplicacion>
 		</aplicaciones>
 		<argumentos>
@@ -50,35 +62,7 @@
 				<etiqueta>Nombre(s) de archivo(s)</etiqueta>
 			</argumento>
 		</argumentos>
-		<validaciones>
-			<validacion>
-				<accion nombre="habilitarCampoSiCheckboxEstaEnTrue">
-					<parametro>-v</parametro>
-					<parametro>pathVerbose</parametro>
-				</accion>
-			</validacion>
-			<validacion>
-				<accion nombre="mostrarFechaEnFormatoLatino">					
-					<constante>La fecha de hoy es: </constante>
-					<parametro>--date</parametro>
-				</accion>
-			</validacion>
-		</validaciones>
-		<salida>
-			<encabezado>
-				<usuario>USER</usuario>
-				<mensaje>Ejecucion de prueba</mensaje>
-			</encabezado>
-			<fin>
-				<fechaDeEjecucion />
-				<tiempoTotal />
-			</fin>
-			<target>
-				<stdout />
-				<log>salida.log</log>
-				<mail>algo2@gmail.com</mail>
-			</target>
-		</salida>
+		<salida>./input/archivo.txt</salida>
 	</comando>
 	<comando nombre="echo">
 		<aplicaciones>
@@ -98,26 +82,25 @@
 	- Boolean = checkbox
 	- Text = fieldtext
 	- Search = fieldtext + ícono (buscador)
-	- Propertie=fieldtext al que se le especifica un separador para definir el argumento
 	- Combo=desplegable con la lista de valores que el usuario puede seleccionar
 
 
 - tag <argumento>:
-	- el tag <grupo> sirve para agrupar argumentos en la pantalla. Crea una especie de "frame" con un título, a modo descriptivo.
 	- el atributo "nombre" es opcional y puede ser: 
-				- flag del comando (o comando parametrizado) correspondiente.
+				- flag del comando ("comando parametrizado") correspondiente.
 				- si no está especificado, son los argumentos del comando (o sea, no son opciones). Por ejemplo, en el del comando "git" el argumento luego de los parametros (observar que no tiene el atributo nombre) sería el <filepattern> (nombre de archivo) del usage del git.
-				- un nombre cualquier para identificar el tag particular en el xml y definir validaciones sobre el mismo.
 				
 	- el atributo "optional" permitiría definir estilos sobre el widget correspondiente que indiquen que el campo es obligatorio.
 	- el atributo "descripción" es un texto que se muestra en un fieldtext no modificable al final de la pantalla.
 	- el atributo "enable" habilita o deshabilita el campo en la pantalla para su edición/modificación. Por default son todos enable=true.
-	- el atributo "orden" es opcional. Se usa para definir un orden de los campos en la pantalla, y (posiblemente) validaciones sobre dichos elementos. 
+	- el atributo "auxiliar", si está en true significa que el nombre no será considerado para armar el comando. Default: false
+	- el atributo "separador" permite definir un separador entre el nombre del argumento y su valor. Permite armar argumentos de tipo propertie. Por ejemplo, si se especifica separator="=": --date=YYYY/MM/DD. Si no se especifica queda: --date YYYY/MM/DD
+	- el atributo "orden" es opcional. Se usa para definir un orden de los campos en la pantalla, y (posiblemente) validaciones sobre dichos elementos.	 
 	- el argumento default (o sea, si no se especifica tipo): tipo Text. Por ejemplo, el  campo mensaje de la aplicación "echo".
 	- posibles mask para el campo number (que es un fieldtext con formato): #, ##.##...
 	- posibles mask para el campo fecha: YYYYMMDD, DD-MM-YYYY
 	- en las reglas, VALOR representa el valor actual del argumento. Las reglas son validaciones sobre el campo actual. 
-	- las validaciones de la aplicación se definen luego de los argumentos. Se define un tag para la acción donde el nombre representa el nombre del método a invocar en Java (se resuelve por reflection), y los parámetros se especifican en el orden que espera el método. 
+	- las validaciones de la aplicación del comando se definen luego de los argumentos. Se define un tag para la acción donde el nombre representa el nombre del método a invocar en Java (se resuelve por reflection), y los parámetros se especifican en el orden que espera el método. 
 					- el tag <parametro> se usa para el valor de los campos definidos en el xml. 
 					- el tag <constante> se usa para pasarle valores constantes al método (cadenas, números).
 	
@@ -125,7 +108,7 @@
 -tag <comando>:
 	- un comando tiene que tener por lo menos una aplicacion
 	- son opcionales los tags parametros, argumentos y salida. Por ejemplo, un aplicacion puede no tener subparametros; en ese caso, se le especifican solo los argumentos, si existieran.
-	- en la salida se le puede especificar un encabezado y un final con cierta información de la corrida actual, y en el tag target se configura si saldrá por pantalla, redirecciona a un archivo, o envía mail (no lo selecciona el usuario de la aplicación)
+	- en la salida se le puede especificar el path de un archivo donde se guardará la salida del comando.
 
 
 - pantalla:
