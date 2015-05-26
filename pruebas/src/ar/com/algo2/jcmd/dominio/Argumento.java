@@ -1,5 +1,8 @@
 package ar.com.algo2.jcmd.dominio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Argumento {
 	
 	private Long orden;
@@ -7,6 +10,7 @@ public class Argumento {
 	private String descripcion;
 	private Boolean optional;
 	private Etiqueta etiqueta;
+	private List<Regla> reglas = new ArrayList<Regla>();
 	
 	public Long getOrden() {
 		return orden;
@@ -38,12 +42,27 @@ public class Argumento {
 	public void setOptional(Boolean optional) {
 		this.optional = optional;
 	}
-		
+	public void addRegla(Regla regla) {
+		this.reglas.add(regla);
+	}		
+	public List<Regla> getReglas() {
+		return reglas;
+	}
+	public void setReglas(List<Regla> reglas) {
+		this.reglas = reglas;
+	}
+	
 	@Override
 	public String toString() {
+		
+		StringBuffer buff = new StringBuffer();
+		
+		for (Regla regla: this.reglas)
+			buff.append(regla.toString()).append(",");
+		
 		return "Argumento [orden=" + orden + ", tipo=" + tipo
 				+ ", descripcion=" + descripcion + ", optional=" + optional
-				+ ", etiqueta=" + etiqueta.toString() + "]";
+				+ ", etiqueta=" + etiqueta.toString() + ", reglas=" + buff.toString() + "]";
 	}
 	public Argumento() {}
 }

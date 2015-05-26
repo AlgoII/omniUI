@@ -7,6 +7,7 @@ import ar.com.algo2.jcmd.dominio.ArgumentoComboBox;
 import ar.com.algo2.jcmd.dominio.ArgumentoDate;
 import ar.com.algo2.jcmd.dominio.ArgumentoNumerico;
 import ar.com.algo2.jcmd.dominio.Etiqueta;
+import ar.com.algo2.jcmd.dominio.Regla;
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -67,9 +68,21 @@ public class ArgumentoConverter implements Converter {
 				}
 
 				writer.endNode();
+			}		
+		}	
+				
+		if (!argumento.getReglas().isEmpty()) {
+			writer.startNode("reglas"); 
+
+			for (Regla regla: argumento.getReglas()) {
+				writer.startNode("regla");
+				ctx.convertAnother(regla);				
+				writer.endNode();
 			}
 			
-		}					
+			writer.endNode();
+		}
+		
 	}
 
 	@Override
@@ -114,6 +127,18 @@ public class ArgumentoConverter implements Converter {
 				((ArgumentoComboBox) argumento).addValor(valor);		
 						
 			reader.moveUp();
+		}
+		
+		if (reader.hasMoreChildren()) {
+			reader.moveDown();		
+			
+			@SuppressWarnings("unchecked")
+			List<Regla> reglas = (List<Regla>) ctx.convertAnother(argumento, List.class);
+
+			for (Regla regla: reglas)
+				argumento.addRegla(regla);		
+			
+			reader.moveUp();		
 		}
 
 		return argumento;
