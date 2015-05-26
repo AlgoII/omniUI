@@ -5,53 +5,67 @@
 			<aplicacion nombre="commit" descripcion="actualiza indice en el repositorio local">
 				<argumentos>
 					<argumento orden="1" nombre="-v" alternativo="--verbose" descripcion="muestra lo comitteado" optional="true" enable="true" tipo="Boolean" valorInicial="true" >
-							<etiqueta>Verboso</etiqueta>							
+							<etiqueta etiqueta="Verboso" />		
+
 					</argumento>
 					<argumento orden="2" nombre="pathVerbose" auxiliar="true" enable="false"  tipo="Search" /> <!-- ficticio, no es del comando git. Representaría la ruta del archivo donde dejar el log del -v. Es para mostrar las validaciones generales de la aplicación (ver más abajo) -->
 					<argumento orden="3" nombre="-m" alternativo="--message" descripcion="mensaje del commit" optional="false" tipo="Text" >
-						<etiqueta>Mensaje para el log</etiqueta>
+						<etiqueta etiqueta="Mensaje para el log" />
 						<reglas>
-							<regla>VALOR.contains(".log")</regla>
+							<regla regla="VALOR.contains(.log)" />
 						</reglas>
 					</argumento>
 					<argumento orden="4" nombre="-F" alternativo="--file" descripcion="lee mensaje de archivo" tipo="Search">
-						<etiqueta>Archivo origen del mensaje</etiqueta>
+						<etiqueta etiqueta="Archivo origen del mensaje" />
 					</argumento>
 					<argumento orden="5" nombre="-S" alternativo="--gpg-sign" separador="=" descripcion="firma GPG" tipo="Text">
-						<etiqueta>Key ID</etiqueta>
+						<etiqueta etiqueta="Key ID" >
+						</etiqueta>
 					</argumento>
 					<argumento orden="6" nombre="-u" alternativo="--untracked-files" separador="=" descripcion="firma GPG" tipo="ComboBox">
-						<etiqueta>Modo</etiqueta>
+						<etiqueta etiqueta="Modo" >
+						</etiqueta>
 						<valores>
-							<valor>all</valor>
-							<valor>normal</valor>
-							<valor>no</valor>
+							<valor valor="all" >
+							</valor>
+							<valor valor="normal" >
+							</valor>
+							<valor valor="no" >
+							</valor>
 						</valores>
 					</argumento>
 					<argumento orden="7" nombre="--status" descripcion="incluye status en el mensaje del commit" tipo="Boolean" valorInicial="false" />
 					<argumento orden="8" nombre="-m" alternativo="--mainline" descripcion="numero padre" tipo="Number" mask="#">
-						<etiqueta>Version</etiqueta>
+						<etiqueta etiqueta="Version" >
+						</etiqueta>
 						<reglas>
-							<regla>VALOR != null</regla>
-							<regla>VALOR > 0</regla>
+							<regla regla="VALOR != null" >
+							</regla>
+							<regla regla="VALOR > 0" >
+							</regla>
 						</reglas>
 					</argumento>
 					<!-- este campo es del git revert, se agrega para mostrar el campo numérico -->
 					<argumento orden="9" nombre="--date" descripcion="sobreescribe la fecha del commit" tipo="Date" mask="YYYYMMDD">
-						<etiqueta>Fecha del commit</etiqueta>
+						<etiqueta etiqueta="Fecha del commit" >
+						</etiqueta>
 					</argumento>
 				</argumentos>
 				<validaciones>
 					<validacion>
 						<accion nombre="habilitarCampoSiCheckboxEstaEnTrue">
-							<parametro>-v</parametro>
-							<parametro>pathVerbose</parametro>
+							<parametro parametro="-v" >
+							</parametro>
+							<parametro parametro="pathVerbose" >
+							</parametro>
 						</accion>
 					</validacion>
 					<validacion>
 						<accion nombre="mostrarFechaEnFormatoLatino">					
-							<constante>La fecha de hoy es: </constante>
-							<parametro>--date</parametro>
+							<constante constante="La fecha de hoy es:" >
+							</constante>
+							<parametro parametro="--date" >
+							</parametro>
 						</accion>
 					</validacion>
 				</validaciones>
@@ -59,16 +73,19 @@
 		</aplicaciones>
 		<argumentos>
 			<argumento>
-				<etiqueta>Nombre(s) de archivo(s)</etiqueta>
+				<etiqueta etiqueta="Nombre(s) de archivo(s)" >
+				</etiqueta>
 			</argumento>
 		</argumentos>
-		<salida>./input/archivo.txt</salida>
+		<salida salida="./input/archivo.txt" >
+		</salida>
 	</comando>
 	<comando nombre="echo">
 		<aplicaciones>
 			<aplicacion>
 				<argumento>
-					<etiqueta>Mensaje</etiqueta>
+					<etiqueta etiqueta="Mensaje" >
+					</etiqueta>
 				</argumento>
 			</aplicacion>
 		</aplicaciones>
