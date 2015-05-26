@@ -1,17 +1,25 @@
 package ar.com.algo2.jcmd.appmodel;
 
+import ar.com.algo2.jcmd.dominio.Accion;
 import ar.com.algo2.jcmd.dominio.Aplicacion;
 import ar.com.algo2.jcmd.dominio.Argumento;
 import ar.com.algo2.jcmd.dominio.Comando;
+import ar.com.algo2.jcmd.dominio.Constante;
 import ar.com.algo2.jcmd.dominio.Etiqueta;
 import ar.com.algo2.jcmd.dominio.Lanzador;
+import ar.com.algo2.jcmd.dominio.Parametro;
 import ar.com.algo2.jcmd.dominio.Regla;
+import ar.com.algo2.jcmd.dominio.Validacion;
+import ar.com.algo2.jcmd.dominio.converters.AccionConverter;
 import ar.com.algo2.jcmd.dominio.converters.AplicacionConverter;
 import ar.com.algo2.jcmd.dominio.converters.ArgumentoConverter;
 import ar.com.algo2.jcmd.dominio.converters.ComandoConverter;
+import ar.com.algo2.jcmd.dominio.converters.ConstanteConverter;
 import ar.com.algo2.jcmd.dominio.converters.EtiquetaConverter;
 import ar.com.algo2.jcmd.dominio.converters.LanzadorConverter;
+import ar.com.algo2.jcmd.dominio.converters.ParametroConverter;
 import ar.com.algo2.jcmd.dominio.converters.ReglaConverter;
+import ar.com.algo2.jcmd.dominio.converters.ValidacionConverter;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -26,7 +34,7 @@ public class Main {
 //		String xml5 = "<lanzador><comando nombre=\"calculadora\" alias=\"Calculadora\" descripcion=\"calculadora de linea de comando\"><aplicaciones><aplicacion nombre=\"suma\" descripcion=\"sumatoria de dos numeros\"><argumentos><argumento orden=\"1\" tipo=\"Number\" descripcion=\"primer operando de la suma\" optional=\"false\" mask=\"##.##\"><etiqueta>Operando</etiqueta></argumento><argumento orden=\"2\" tipo=\"Number\" descripcion=\"segundo operando de la suma\" optional=\"false\"><etiqueta>Operando</etiqueta></argumento><argumento orden=\"3\" nombre=\"-m\" tipo=\"Text\" descripcion=\"mensaje a desplegar\" optional=\"true\"><etiqueta>Mensaje</etiqueta></argumento></argumentos></aplicacion><aplicacion nombre=\"resta\" descripcion=\"resta de dos numeros\"><argumentos><argumento orden=\"1\" tipo=\"Number\" descripcion=\"primer operando de la resta\" optional=\"false\"><etiqueta>Operando</etiqueta></argumento><argumento orden=\"2\" tipo=\"Number\" descripcion=\"segundo operando de la resta\" optional=\"false\"><etiqueta>Operando</etiqueta></argumento></argumentos></aplicacion></aplicaciones><salida>./input/archivo.txt</salida></comando><comando nombre=\"echo\"><aplicaciones><aplicacion><argumentos><argumento><etiqueta>Mensaje</etiqueta></argumento></argumentos></aplicacion></aplicaciones><salida>./input/archivo2.txt</salida></comando></lanzador>";
 //		String xml5 = "<lanzador><comando nombre=\"calculadora\" alias=\"Calculadora\" descripcion=\"calculadora de linea de comando\"><aplicaciones><aplicacion nombre=\"suma\" descripcion=\"sumatoria de dos numeros\"><argumentos><argumento orden=\"1\" tipo=\"Number\" descripcion=\"primer operando de la suma\" optional=\"false\" mask=\"##.##\"><etiqueta>Operando</etiqueta></argumento><argumento orden=\"2\" tipo=\"Number\" descripcion=\"segundo operando de la suma\" optional=\"false\"><etiqueta>Operando</etiqueta></argumento><argumento orden=\"3\" nombre=\"-m\" tipo=\"Text\" descripcion=\"mensaje a desplegar\" optional=\"true\"><etiqueta>Mensaje</etiqueta></argumento></argumentos></aplicacion><aplicacion nombre=\"resta\" descripcion=\"resta de dos numeros\"><argumentos><argumento orden=\"1\" tipo=\"Number\" descripcion=\"primer operando de la resta\" optional=\"false\"><etiqueta>Operando</etiqueta></argumento><argumento orden=\"2\" tipo=\"Number\" descripcion=\"segundo operando de la resta\" optional=\"false\"><etiqueta>Operando</etiqueta></argumento></argumentos></aplicacion></aplicaciones><salida>./input/archivo.txt</salida></comando></lanzador>";
 //		String xml5 = "<lanzador><comando nombre=\"echo\"><aplicaciones><aplicacion><argumentos><argumento><etiqueta>Mensaje</etiqueta></argumento></argumentos></aplicacion></aplicaciones><salida>./input/archivo2.txt</salida></comando></lanzador>";
-		String xml5 = "<lanzador><comando nombre=\"calculadora\" alias=\"Calculadora\" descripcion=\"calculadora de linea de comando\"><aplicaciones><aplicacion nombre=\"suma\" descripcion=\"sumatoria de dos numeros\"><argumentos><argumento orden=\"1\" tipo=\"Number\" descripcion=\"primer operando de la suma\" optional=\"false\" mask=\"##.##\"><etiqueta>Operando</etiqueta></argumento><argumento orden=\"2\" tipo=\"Number\" descripcion=\"segundo operando de la suma\" optional=\"false\"><etiqueta> Operando </etiqueta><reglas><regla>VALOR != null</regla><regla>VALOR > 0</regla></reglas></argumento><argumento orden=\"3\" nombre=\"-m\" tipo=\"Text\" descripcion=\"mensaje a desplegar\" optional=\"true\"><etiqueta> Mensaje </etiqueta></argumento><argumento orden=\"4\" nombre=\"-d\" tipo=\"Date\" descripcion=\"mensaje a desplegar\" optional=\"true\" formato=\"YYYYDDMM\"><etiqueta> Fecha </etiqueta></argumento></argumentos></aplicacion><aplicacion nombre=\"resta\" descripcion=\"resta de dos numeros\"><argumentos><argumento orden=\"1\" tipo=\"Number\" descripcion=\"primer operando de la resta\" optional=\"false\"><etiqueta> Operando </etiqueta></argumento><argumento orden=\"2\" tipo=\"Number\" descripcion=\"segundo operando de la resta\" optional=\"false\"><etiqueta> Operando </etiqueta></argumento><argumento orden=\"3\" tipo=\"ComboBox\" descripcion=\"segundo operando de la resta\" optional=\"false\"><etiqueta> Operando </etiqueta><valores><valor>all</valor><valor>normal</valor><valor>no</valor></valores></argumento></argumentos></aplicacion></aplicaciones><salida>./input/archivo.txt</salida></comando><comando nombre=\"echo\"><aplicaciones><aplicacion><argumentos><argumento><etiqueta> Mensaje </etiqueta></argumento></argumentos></aplicacion></aplicaciones><salida>./input/archivo2.txt</salida></comando></lanzador>";
+		String xml5 = "<lanzador><comando nombre=\"calculadora\" alias=\"Calculadora\" descripcion=\"calculadora de linea de comando\"><aplicaciones><aplicacion nombre=\"suma\" descripcion=\"sumatoria de dos numeros\"><argumentos><argumento orden=\"1\" tipo=\"Number\" descripcion=\"primer operando de la suma\" optional=\"false\" mask=\"##.##\"><etiqueta>Operando</etiqueta></argumento><argumento orden=\"2\" tipo=\"Number\" descripcion=\"segundo operando de la suma\" optional=\"false\"><etiqueta> Operando </etiqueta><reglas><regla>VALOR != null</regla><regla>VALOR > 0</regla></reglas></argumento><argumento orden=\"3\" nombre=\"-m\" tipo=\"Text\" descripcion=\"mensaje a desplegar\" optional=\"true\"><etiqueta> Mensaje </etiqueta></argumento><argumento orden=\"4\" nombre=\"-d\" tipo=\"Date\" descripcion=\"mensaje a desplegar\" optional=\"true\" formato=\"YYYYDDMM\"><etiqueta> Fecha </etiqueta></argumento></argumentos></aplicacion><aplicacion nombre=\"resta\" descripcion=\"resta de dos numeros\"><argumentos><argumento orden=\"1\" tipo=\"Number\" descripcion=\"primer operando de la resta\" optional=\"false\"><etiqueta> Operando </etiqueta></argumento><argumento orden=\"2\" tipo=\"Number\" descripcion=\"segundo operando de la resta\" optional=\"false\"><etiqueta> Operando </etiqueta></argumento><argumento orden=\"3\" tipo=\"ComboBox\" descripcion=\"segundo operando de la resta\" optional=\"false\"><etiqueta> Operando </etiqueta><valores><valor>all</valor><valor>normal</valor><valor>no</valor></valores></argumento></argumentos></aplicacion></aplicaciones><salida>./input/archivo.txt</salida></comando><comando nombre=\"echo\"><aplicaciones><aplicacion><argumentos><argumento><etiqueta> Mensaje </etiqueta></argumento></argumentos><validaciones><validacion><accion nombre=\"habilitarCampoSiCheckboxEstaEnTrue\"><parametro>-v</parametro><parametro>pathVerbose</parametro></accion></validacion><validacion><accion nombre=\"mostrarFechaEnFormatoLatino\"><constante>La fecha de hoy es: </constante><parametro>--date</parametro></accion></validacion></validaciones></aplicacion></aplicaciones><salida>./input/archivo2.txt</salida></comando></lanzador>";
 		
 		
 		XStream xstream = new XStream();
@@ -36,8 +44,12 @@ public class Main {
 		xstream.alias("aplicacion", Aplicacion.class);
 		xstream.alias("comando", Comando.class);				
 		xstream.alias("lanzador", Lanzador.class);
-		xstream.alias("valor", String.class);
+		xstream.alias("valor", String.class); //no armo un converter porque es una constante
 		xstream.alias("regla", Regla.class);
+		xstream.alias("parametro", Parametro.class);
+		xstream.alias("constante", Constante.class);
+		xstream.alias("validacion", Validacion.class);
+		xstream.alias("accion", Accion.class);
 		
 //        xstream.addImplicitCollection(Lanzador.class, "comandos");
 	
@@ -47,6 +59,11 @@ public class Main {
 		xstream.registerConverter(new ComandoConverter());
 		xstream.registerConverter(new LanzadorConverter());
 		xstream.registerConverter(new ReglaConverter());
+		xstream.registerConverter(new ParametroConverter());
+		xstream.registerConverter(new ConstanteConverter());
+		xstream.registerConverter(new AccionConverter());
+		xstream.registerConverter(new ValidacionConverter());
+
 		
 		
 //		xstream.registerConverter(new ArgumentoGenericoConverter(xstream.getConverterLookup().lookupConverterForType(Argumento.class), xstream.getReflectionProvider()));

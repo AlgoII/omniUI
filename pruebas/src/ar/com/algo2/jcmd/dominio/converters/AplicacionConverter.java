@@ -4,6 +4,7 @@ import java.util.List;
 
 import ar.com.algo2.jcmd.dominio.Aplicacion;
 import ar.com.algo2.jcmd.dominio.Argumento;
+import ar.com.algo2.jcmd.dominio.Validacion;
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -20,9 +21,12 @@ public class AplicacionConverter implements Converter {
 
 	@Override
 	public void marshal(Object obj, HierarchicalStreamWriter writer, MarshallingContext ctx) {
+
 		Aplicacion aplicacion = (Aplicacion) obj;
+
 		if (aplicacion.getNombre() != null) writer.addAttribute("nombre", aplicacion.getNombre());
 		if (aplicacion.getDescripcion() != null) writer.addAttribute("descripcion", aplicacion.getDescripcion());	
+
 
 		List<Argumento> argumentos = aplicacion.getArgumentos();
 		if (!argumentos.isEmpty()) {
@@ -35,7 +39,21 @@ public class AplicacionConverter implements Converter {
 			}
 
 			writer.endNode();
+		}		
+
+		List<Validacion> validaciones = aplicacion.getValidaciones();
+		if (!validaciones.isEmpty()) {
+			writer.startNode("validaciones"); 
+
+			for (Validacion validacion: validaciones) {
+				writer.startNode("validacion");
+				ctx.convertAnother(validacion);				
+				writer.endNode();
+			}
+
+			writer.endNode();
 		}
+
 	}
 
 	@Override
@@ -47,7 +65,6 @@ public class AplicacionConverter implements Converter {
 		aplicacion.setDescripcion(reader.getAttribute("descripcion"));
 
 		reader.moveDown();
-
 		if ("argumentos".equals(reader.getNodeName())) {
 
 			@SuppressWarnings("unchecked")
@@ -57,8 +74,24 @@ public class AplicacionConverter implements Converter {
 				aplicacion.addArgumento(a);
 
 		}
-
 		reader.moveUp();
+
+
+		if (reader.hasMoreChildren()) {		
+
+			reader.moveDown();
+			if ("validaciones".equals(reader.getNodeName())) {
+
+				@SuppressWarnings("unchecked")
+				List<Validacion> validaciones =  (List<Validacion>) ctx.convertAnother(aplicacion,List.class);             
+
+				for(Validacion a: validaciones)
+					aplicacion.addValidacion(a);
+
+			}			
+			reader.moveUp();		
+		}
+
 
 		return aplicacion;
 	}
