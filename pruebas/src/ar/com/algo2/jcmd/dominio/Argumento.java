@@ -9,17 +9,52 @@ public class Argumento {
 	private String tipo;
 	private String descripcion;
 	private Boolean optional;
-	private Etiqueta etiqueta;
+	private String etiqueta;
+	private String alternativo;
+	private Boolean auxiliar;
+	private Boolean habilitado;
+	private String separador;
+	private String nombre;
 	private List<Regla> reglas = new ArrayList<Regla>();
-	
-	public Long getOrden() {
-		return orden;
+
+	public String getAlternativo() {
+		return alternativo;
 	}
-	public Etiqueta getEtiqueta() {
+	public void setAlternativo(String alternativo) {
+		this.alternativo = alternativo;
+	}
+	public Boolean getAuxiliar() {
+		return auxiliar;
+	}
+	public void setAuxiliar(Boolean auxiliar) {
+		this.auxiliar = auxiliar;
+	}
+	public Boolean getHabilitado() {
+		return habilitado;
+	}
+	public void setHabilitado(Boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+	public String getSeparador() {
+		return separador;
+	}
+	public void setSeparador(String separador) {
+		this.separador = separador;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public String getEtiqueta() {
 		return etiqueta;
 	}
-	public void setEtiqueta(Etiqueta etiqueta) {
+	public void setEtiqueta(String etiqueta) {
 		this.etiqueta = etiqueta;
+	}
+	public Long getOrden() {
+		return orden;
 	}
 	public void setOrden(Long orden) {
 		this.orden = orden;
@@ -54,17 +89,22 @@ public class Argumento {
 	
 	@Override
 	public String toString() {
-		
+				
 		StringBuffer buff = new StringBuffer();
 		
 		for (Regla regla: this.reglas)
 			buff.append(regla.toString()).append(",");
-		
+				
 		return "Argumento [orden=" + orden + ", tipo=" + tipo
 				+ ", descripcion=" + descripcion + ", optional=" + optional
-				+ ", etiqueta=" + etiqueta.toString() + ", reglas=" + buff.toString() + "]";
+				+ ", etiqueta=" + etiqueta + ", reglas=" + buff.toString()
+				+ ", alternativo=" + alternativo + ", auxiliar=" + auxiliar
+				+ ", habilitado=" + habilitado + ", separador=" + separador
+				+ ", nombre=" + nombre + "]";
 	}
+	
 	public Argumento() {}
+	
 }
 
 

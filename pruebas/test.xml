@@ -1,61 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <lanzador>
-	<comando nombre="calculadora" alias="Calculadora"
-		descripcion="calculadora de linea de comando">
+	<comando nombre="git" alias="Git" descripcion="cliente de Git">
 		<aplicaciones>
-			<aplicacion nombre="suma" descripcion="sumatoria de dos numeros">
+			<aplicacion nombre="commit" descripcion="actualiza indice en el repositorio local">
 				<argumentos>
-					<argumento orden="1" tipo="Number" descripcion="primer operando de la suma"
-						optional="false" mask="##.##">
-						<etiqueta>Operando</etiqueta>
+					<argumento orden="1" nombre="-v" alternativo="--verbose" descripcion="muestra lo comitteado" optional="true" enable="true" tipo="Boolean" valorInicial="true" >
+							<etiqueta>Verboso</etiqueta>							
 					</argumento>
-					<argumento orden="2" tipo="Number" descripcion="segundo operando de la suma"
-						optional="false">
-						<etiqueta>
-							Operando
-						</etiqueta>
+					<argumento orden="2" nombre="pathVerbose" auxiliar="true" enable="false"  tipo="Search" />
+					<argumento orden="3" nombre="-m" alternativo="--message" descripcion="mensaje del commit" optional="false" tipo="Text" >
+						<etiqueta>Mensaje para el log</etiqueta>
+						<reglas>
+							<regla>VALOR.contains(".log")</regla>
+						</reglas>
 					</argumento>
-					<argumento orden="3" nombre="-m" tipo="Text"
-						descripcion="mensaje a desplegar" optional="true">
-						<etiqueta>
-							Mensaje
-						</etiqueta>
+					<argumento orden="4" nombre="-F" alternativo="--file" descripcion="lee mensaje de archivo" tipo="Search">
+						<etiqueta>Archivo origen del mensaje</etiqueta>
 					</argumento>
-					<argumento orden="4" nombre="-d" tipo="Date"
-						descripcion="mensaje a desplegar" optional="true" formato="YYYYDDMM">
-						<etiqueta>
-							Fecha
-						</etiqueta>
+					<argumento orden="5" nombre="-S" alternativo="--gpg-sign" separador="=" descripcion="firma GPG" tipo="Text">
+						<etiqueta>Key ID</etiqueta>
 					</argumento>
-				</argumentos>
-			</aplicacion>
-			<aplicacion nombre="resta" descripcion="resta de dos numeros">
-				<argumentos>
-					<argumento orden="1" tipo="Number" descripcion="primer operando de la resta"
-						optional="false">
-						<etiqueta>
-							Operando
-						</etiqueta>
-					</argumento>
-					<argumento orden="2" tipo="Number" descripcion="segundo operando de la resta"
-						optional="false">
-						<etiqueta>
-							Operando
-						</etiqueta>
-					</argumento>
-					<argumento orden="3" tipo="ComboBox" descripcion="segundo operando de la resta"
-						optional="false">
-						<etiqueta>
-							Operando
-						</etiqueta>
+					<argumento orden="6" nombre="-u" alternativo="--untracked-files" separador="=" descripcion="firma GPG" tipo="ComboBox">
+						<etiqueta>Modo</etiqueta>
 						<valores>
 							<valor>all</valor>
 							<valor>normal</valor>
 							<valor>no</valor>
 						</valores>
 					</argumento>
+					<argumento orden="7" nombre="--status" descripcion="incluye status en el mensaje del commit" tipo="Boolean" valorInicial="false" />
+					<argumento orden="8" nombre="-m" alternativo="--mainline" descripcion="numero padre" tipo="Number" mask="#">
+						<etiqueta>Version</etiqueta>
+						<reglas>
+							<regla>VALOR != null</regla>
+							<regla>VALOR > 0</regla>
+						</reglas>
+					</argumento>
+					<argumento orden="9" nombre="--date" descripcion="sobreescribe la fecha del commit" tipo="Date" mask="YYYYMMDD">
+						<etiqueta>Fecha del commit</etiqueta>
+					</argumento>
+					<argumento>
+						<etiqueta>Nombre(s) de archivo(s)</etiqueta>
+					</argumento>
 				</argumentos>
+				<validaciones>
+					<validacion>
+						<accion nombre="habilitarCampoSiCheckboxEstaEnTrue">
+							<parametro>-v</parametro>
+							<parametro>pathVerbose</parametro>
+						</accion>
+					</validacion>
+					<validacion>
+						<accion nombre="mostrarFechaEnFormatoLatino">					
+							<constante>La fecha de hoy es: </constante>
+							<parametro>--date</parametro>
+						</accion>
+					</validacion>
+				</validaciones>
 			</aplicacion>
-		</aplicaciones>
+		</aplicaciones>		
 		<salida>./input/archivo.txt</salida>
 	</comando>
 	<comando nombre="echo">
@@ -63,14 +66,10 @@
 			<aplicacion>
 				<argumentos>
 					<argumento>
-						<etiqueta>
-							Mensaje
-						</etiqueta>
+						<etiqueta>Mensaje</etiqueta>
 					</argumento>
 				</argumentos>
 			</aplicacion>
 		</aplicaciones>
-		<salida>./input/archivo2.txt</salida>
 	</comando>
 </lanzador>
-

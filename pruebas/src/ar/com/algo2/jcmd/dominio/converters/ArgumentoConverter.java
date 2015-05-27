@@ -3,10 +3,10 @@ package ar.com.algo2.jcmd.dominio.converters;
 import java.util.List;
 
 import ar.com.algo2.jcmd.dominio.Argumento;
+import ar.com.algo2.jcmd.dominio.ArgumentoBoolean;
 import ar.com.algo2.jcmd.dominio.ArgumentoComboBox;
 import ar.com.algo2.jcmd.dominio.ArgumentoDate;
 import ar.com.algo2.jcmd.dominio.ArgumentoNumerico;
-import ar.com.algo2.jcmd.dominio.Etiqueta;
 import ar.com.algo2.jcmd.dominio.Regla;
 
 import com.thoughtworks.xstream.converters.Converter;
@@ -20,7 +20,7 @@ public class ArgumentoConverter implements Converter {
 
 	@Override
 	public boolean canConvert(@SuppressWarnings("rawtypes") Class clazz) {		
-		return (clazz.equals(Argumento.class) || clazz.equals(ArgumentoNumerico.class) || clazz.equals(ArgumentoDate.class) || clazz.equals(ArgumentoComboBox.class));
+		return (clazz.equals(Argumento.class) || clazz.equals(ArgumentoNumerico.class) || clazz.equals(ArgumentoDate.class) || clazz.equals(ArgumentoComboBox.class) || clazz.equals(ArgumentoBoolean.class));
 	}
 
 	@Override
@@ -28,18 +28,14 @@ public class ArgumentoConverter implements Converter {
 
 		Argumento argumento = (Argumento) obj;
 		if (argumento.getOrden() != null) writer.addAttribute("orden", ""+argumento.getOrden());
+		if (argumento.getNombre() != null) writer.addAttribute("nombre", ""+argumento.getNombre());
+		if (argumento.getAlternativo() != null) writer.addAttribute("alternativo", ""+argumento.getAlternativo());
 		if (argumento.getTipo() != null) writer.addAttribute("tipo", ""+argumento.getTipo());
 		if (argumento.getDescripcion() != null) writer.addAttribute("descripcion", ""+argumento.getDescripcion());
+		if (argumento.getHabilitado() != null) writer.addAttribute("enable", ""+argumento.getHabilitado());
 		if (argumento.getOptional() != null) writer.addAttribute("optional", ""+argumento.getOptional());
-			
-		if (argumento.getEtiqueta() != null) {
-			writer.startNode("etiqueta"); 
-
-			ctx.convertAnother(argumento.getEtiqueta());
-
-			writer.endNode();		
-		}
-		
+		if (argumento.getSeparador() != null) writer.addAttribute("separador", ""+argumento.getSeparador());
+	
 		if (argumento.getTipo() != null && argumento.getTipo().equalsIgnoreCase("Number")) {
 			ArgumentoNumerico argumentoNumerico = (ArgumentoNumerico) obj;
 			String mask = argumentoNumerico.getMask();
@@ -54,7 +50,24 @@ public class ArgumentoConverter implements Converter {
 			if (formato != null)
 				writer.addAttribute("formato", formato);
 			
-		} else if (argumento.getTipo() != null && argumento.getTipo().equalsIgnoreCase("ComboBox")) {
+		} else if (argumento.getTipo() != null && argumento.getTipo().equalsIgnoreCase("Boolean")) {
+			ArgumentoBoolean argumentoBoolean = (ArgumentoBoolean) obj;
+			Boolean valorInicial = argumentoBoolean.getValorInicial();
+
+			if (valorInicial != null)
+				writer.addAttribute("valorInicial","" + valorInicial);
+			
+		} 
+				
+		if (argumento.getEtiqueta() != null) {
+			writer.startNode("etiqueta"); 
+
+			ctx.convertAnother(argumento.getEtiqueta());
+
+			writer.endNode();		
+		}
+				
+		if (argumento.getTipo() != null && argumento.getTipo().equalsIgnoreCase("ComboBox")) {
 			
 			ArgumentoComboBox argumentoComboBox = (ArgumentoComboBox) obj;
 			
@@ -63,7 +76,7 @@ public class ArgumentoConverter implements Converter {
 
 				for (String valor: argumentoComboBox.getValores()) {
 					writer.startNode("valor");
-					ctx.convertAnother(valor); //TODO este debería usar StringConverter sin tener que registrarlo...				
+					ctx.convertAnother(valor);				
 					writer.endNode();
 				}
 
@@ -90,7 +103,7 @@ public class ArgumentoConverter implements Converter {
 
 		Argumento argumento = null;
 
-		if ((reader.getAttribute("tipo") == null) || (reader.getAttribute("tipo").equalsIgnoreCase("Text")) || (reader.getAttribute("tipo").equalsIgnoreCase("Boolean")) || (reader.getAttribute("tipo").equalsIgnoreCase("Search")) )  
+		if ((reader.getAttribute("tipo") == null) || (reader.getAttribute("tipo").equalsIgnoreCase("Text"))  || (reader.getAttribute("tipo").equalsIgnoreCase("Search")) )  
 			argumento = new Argumento();
 		
 		else if (reader.getAttribute("tipo").equalsIgnoreCase("Number"))
@@ -102,20 +115,33 @@ public class ArgumentoConverter implements Converter {
 		else if (reader.getAttribute("tipo").equalsIgnoreCase("ComboBox"))
 			 argumento = new ArgumentoComboBox();
 			
+		else if (reader.getAttribute("tipo").equalsIgnoreCase("Boolean")) 
+			 argumento = new ArgumentoBoolean(reader.getAttribute("valorInicial") != null ? new Boolean(reader.getAttribute("valorInicial")) : new Boolean(false));
+	
 			
+		argumento.setNombre(reader.getAttribute("nombre"));
+		argumento.setHabilitado(reader.getAttribute("enable") != null ? new Boolean(reader.getAttribute("enable")) : new Boolean(true));
+		argumento.setAlternativo(reader.getAttribute("alternativo"));
+		argumento.setAuxiliar(reader.getAttribute("auxiliar") != null ? new Boolean(reader.getAttribute("auxiliar")) : new Boolean(false));
+		argumento.setSeparador(reader.getAttribute("separador"));
+		
 		if (reader.getAttribute("orden") != null ) argumento.setOrden(new Long(reader.getAttribute("orden")));
 		argumento.setTipo(reader.getAttribute("tipo"));
 		argumento.setDescripcion(reader.getAttribute("descripcion"));
-		argumento.setOptional(new Boolean(reader.getAttribute("optional")));
+		argumento.setOptional(reader.getAttribute("optional") != null ? new Boolean(reader.getAttribute("optional")) : new Boolean(true));
 		
-		reader.moveDown();		
-		if ("etiqueta".equals(reader.getNodeName())) {
+		if (reader.hasMoreChildren()) { //caso de los auxiliares sin etiqueta
 
-			Etiqueta etiqueta = (Etiqueta) ctx.convertAnother(argumento, Etiqueta.class);
+			reader.moveDown();		
+			if ("etiqueta".equals(reader.getNodeName())) {
 
-			argumento.setEtiqueta(etiqueta);
+				String etiqueta = (String) ctx.convertAnother(argumento, String.class);
+
+				argumento.setEtiqueta(etiqueta);
+			}
+			
+			reader.moveUp();
 		}
-		reader.moveUp();
 				
 		if (argumento.getTipo() != null && argumento.getTipo().equalsIgnoreCase("ComboBox")) {
 			reader.moveDown();		
