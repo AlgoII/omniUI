@@ -1,5 +1,6 @@
 package TP_Algo2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Aplicacion
@@ -9,7 +10,11 @@ public class Aplicacion
 	String nombre;
 	List<Validacion> validaciones;
 	
-	
+	public Aplicacion()
+	{
+		argumentos = new ArrayList<Argumento>();
+		validaciones = new ArrayList<Validacion>();
+	}
 	//Setters y Getters
 	
 	public List<Argumento> getArgumentos()

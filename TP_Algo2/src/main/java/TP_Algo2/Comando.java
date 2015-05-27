@@ -1,6 +1,7 @@
 package TP_Algo2;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Comando
 {
@@ -10,6 +11,10 @@ public class Comando
 	String nombre;
 	String salida;
 	
+	public Comando()
+	{
+		aplicaciones = new ArrayList<Aplicacion>();
+	}
 	
 	//Setters y Getters
 	

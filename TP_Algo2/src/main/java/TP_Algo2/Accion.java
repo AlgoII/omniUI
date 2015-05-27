@@ -1,12 +1,19 @@
 package TP_Algo2;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Accion
 {
 	String nombre;
 	List<Constante> constantes;
 	List<Parametro> parametros;
+	
+	public Accion()
+	{
+		constantes = new ArrayList<Constante>();
+		parametros = new ArrayList<Parametro>();
+	}
 	
 	//Setters y getters
 	public String getNombre()

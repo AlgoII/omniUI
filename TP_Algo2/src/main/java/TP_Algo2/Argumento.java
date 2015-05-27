@@ -1,6 +1,7 @@
 package TP_Algo2;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Argumento
 {
@@ -17,6 +18,10 @@ public class Argumento
 	List<Regla> reglas;
 	
 	//setters y getters
+	public Argumento()
+	{
+		reglas = new ArrayList<Regla>();
+	}
 	
 	public List<Regla> getReglas()
 	{
@@ -44,13 +49,16 @@ public class Argumento
 	}
 	public void setAuxiliar(String auxiliar)
 	{
-		if(auxiliar=="true")
+		if(auxiliar!=null)
+		{
+		if(auxiliar.equals("true"))
 		{
 		this.auxiliar=true;
 		}
-		if(auxiliar=="false")
+		if(auxiliar.equals("false"))
 		{
 		this.auxiliar=false;
+		}
 		}
 		
 	}
@@ -68,13 +76,16 @@ public class Argumento
 	}
 	public void setHabilitado(String habilitado)
 	{
-		if(habilitado=="true")
+		if(habilitado!=null)
+		{
+		if(habilitado.equals("true"))
 		{
 		this.habilitado=true;
 		}
-		if(habilitado=="false")
+		if(habilitado.equals("false"))
 		{
 		this.habilitado=false;
+		}
 		}
 	}
 	public String getLabel()
@@ -99,13 +110,16 @@ public class Argumento
 	}
 	public void setOptional(String optional)
 	{
-		if(optional=="true")
+		if(optional!=null)
+		{
+		if(optional.equals("true"))
 		{
 			this.optional=true;
 		}
-		if(optional=="false")
+		if(optional.equals("false"))
 		{
 			this.optional=false;
+		}
 		}
 	}
 	

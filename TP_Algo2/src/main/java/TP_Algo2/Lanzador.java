@@ -27,7 +27,7 @@ public class Lanzador extends DefaultHandler
 			{
 				SAXParserFactory spf = SAXParserFactory.newInstance();
 				SAXParser sp = spf.newSAXParser();
-				sp.parse("xml-spec-final.xml",new Lanzador());
+				sp.parse("xml-spec-v7.xml",new Lanzador());
 			}
 			
 			return instancia;
@@ -40,12 +40,17 @@ public class Lanzador extends DefaultHandler
 	}
 
 	
-	public Aplicacion ultimaAplicacion = null;
-	public Comando ultimoComando = null;
-	public Argumento ultimoArgumento = null;
-	public Validacion ultimaValidacion = null;
-	public Accion ultimaAccion = null;
-	public ArgumentoCombo ultimoArgumentoCombo = null;
+	Aplicacion ultimaAplicacion = null;
+	Comando ultimoComando = null;
+	Argumento ultimoArgumento = null;
+	Validacion ultimaValidacion = null;
+	Accion ultimaAccion = null;
+	ArgumentoCombo ultimoArgumentoCombo = null;
+	Regla ultimaRegla = null;
+	boolean salida = false;
+	boolean etiqueta = false;
+	boolean regla = false;
+	boolean valor = false;
 
 	
 	public void startElement(String uri, String localName, String qName, Attributes attributes)
@@ -60,12 +65,9 @@ public class Lanzador extends DefaultHandler
 		if(qName.equals("comando"))
 		{
 			Comando comando = new Comando();
-			List<Aplicacion> aplicaciones = new ArrayList<Aplicacion>();
-			
 			
 			instancia.comandos.add(comando);
 			comando.setAlias(attributes.getValue("alias"));
-			comando.setAplicaciones(aplicaciones);
 			comando.setDescripcion(attributes.getValue("descripcion"));
 			comando.setNombre(attributes.getValue("nombre"));
 			comando.setSalida(attributes.getValue("salida"));
@@ -76,25 +78,22 @@ public class Lanzador extends DefaultHandler
 		if(qName.equals("aplicacion"))
 		{
 			Aplicacion aplicacion = new Aplicacion();
-			List<Validacion> validaciones = new ArrayList<Validacion>();
-			List<Argumento> argumentos = new ArrayList<Argumento>();
-			
 			ultimoComando.aplicaciones.add(aplicacion);
-			aplicacion.setArgumentos(argumentos);
 			aplicacion.setDescripcion(attributes.getValue("descripcion"));
 			aplicacion.setNombre(attributes.getValue("nombre"));
-			aplicacion.setValidaciones(validaciones);
+
 			
 			this.ultimaAplicacion = aplicacion;
 		}
 		
-		if((qName.equals("argumento"))&&(attributes.getValue("tipo")=="Boolean"))
+		
+		if((qName.equals("argumento"))&&(attributes.getLength()>1))
 		{
+			if(attributes.getValue("tipo").equals("Boolean"))
+			{
 			ArgumentoBoolean argumento = new ArgumentoBoolean();
 			ultimaAplicacion.argumentos.add(argumento);
-			List<Regla> reglas = new ArrayList<Regla>();
-			
-			argumento.setReglas(reglas);
+			this.ultimoArgumento = argumento;
 			argumento.setAlternativo(attributes.getValue("alternativo"));
 			argumento.setAuxiliar(attributes.getValue("auxiliar"));
 			argumento.setDescripcion(attributes.getValue("descripcion"));
@@ -104,18 +103,14 @@ public class Lanzador extends DefaultHandler
 			argumento.setOrden(attributes.getValue("orden"));
 			argumento.setSeparador(attributes.getValue("separador"));
 			argumento.setTipo(attributes.getValue("tipo"));
+			argumento.setValorInicial(attributes.getValue("valorInicial"));
+			}
 			
-			this.ultimoArgumento = argumento;
-			
-		}
-		
-		if((qName.equals("argumento"))&&(attributes.getValue("tipo")=="Text"))
-		{
-			ArgumentoTexto argumento = new ArgumentoTexto();
+			if(attributes.getValue("tipo").equals("Text"))
+			{	
+			Argumento argumento = new Argumento();
 			ultimaAplicacion.argumentos.add(argumento);
-			List<Regla> reglas = new ArrayList<Regla>();
-			
-			argumento.setReglas(reglas);
+			this.ultimoArgumento = argumento;
 			argumento.setAlternativo(attributes.getValue("alternativo"));
 			argumento.setAuxiliar(attributes.getValue("auxiliar"));
 			argumento.setDescripcion(attributes.getValue("descripcion"));
@@ -125,18 +120,13 @@ public class Lanzador extends DefaultHandler
 			argumento.setOrden(attributes.getValue("orden"));
 			argumento.setSeparador(attributes.getValue("separador"));
 			argumento.setTipo(attributes.getValue("tipo"));
+			}
 			
-			this.ultimoArgumento = argumento;
-			
-		}
-		
-		if((qName.equals("argumento"))&&(attributes.getValue("tipo")=="Number"))
-		{
+			if(attributes.getValue("tipo").equals("Number"))
+			{
 			ArgumentoNumerico argumento = new ArgumentoNumerico();
 			ultimaAplicacion.argumentos.add(argumento);
-			List<Regla> reglas = new ArrayList<Regla>();
-			
-			argumento.setReglas(reglas);
+			this.ultimoArgumento = argumento;
 			argumento.setAlternativo(attributes.getValue("alternativo"));
 			argumento.setAuxiliar(attributes.getValue("auxiliar"));
 			argumento.setDescripcion(attributes.getValue("descripcion"));
@@ -147,40 +137,14 @@ public class Lanzador extends DefaultHandler
 			argumento.setSeparador(attributes.getValue("separador"));
 			argumento.setTipo(attributes.getValue("tipo"));
 			argumento.setMascara(attributes.getValue("mascara"));
+			}
 			
-			this.ultimoArgumento = argumento;
-		}
-		
-		if((qName.equals("argumento"))&&(attributes.getValue("tipo")=="ComboBox"))
-		{
+			if(attributes.getValue("tipo").equals("ComboBox"))
+			{
 			ArgumentoCombo argumento = new ArgumentoCombo();
 			ultimaAplicacion.argumentos.add(argumento);
-			List<Regla> reglas = new ArrayList<Regla>();
-			
-			argumento.setReglas(reglas);
-			argumento.setAlternativo(attributes.getValue("alternativo"));
-			argumento.setAuxiliar(attributes.getValue("auxiliar"));
-			argumento.setDescripcion(attributes.getValue("descripcion"));
-			argumento.setHabilitado(attributes.getValue("enable"));
-			argumento.setNombre(attributes.getValue("nombre"));
-			argumento.setOptional(attributes.getValue("optional"));
-			argumento.setOrden(attributes.getValue("orden"));
-			argumento.setSeparador(attributes.getValue("separador"));
-			argumento.setTipo(attributes.getValue("tipo"));
-			argumento.valores = new ArrayList<String>();
-			
 			this.ultimoArgumento = argumento;
 			this.ultimoArgumentoCombo = argumento;
-			
-		}
-		
-		if((qName.equals("argumento"))&&(attributes.getValue("tipo")=="Search"))
-		{
-			ArgumentoSearch argumento = new ArgumentoSearch();
-			ultimaAplicacion.argumentos.add(argumento);
-			List<Regla> reglas = new ArrayList<Regla>();
-			
-			argumento.setReglas(reglas);
 			argumento.setAlternativo(attributes.getValue("alternativo"));
 			argumento.setAuxiliar(attributes.getValue("auxiliar"));
 			argumento.setDescripcion(attributes.getValue("descripcion"));
@@ -190,18 +154,29 @@ public class Lanzador extends DefaultHandler
 			argumento.setOrden(attributes.getValue("orden"));
 			argumento.setSeparador(attributes.getValue("separador"));
 			argumento.setTipo(attributes.getValue("tipo"));
+			}
 			
+			if(attributes.getValue("tipo").equals("Search"))
+			{	
+			Argumento argumento = new Argumento();
+			ultimaAplicacion.argumentos.add(argumento);
 			this.ultimoArgumento = argumento;
+			argumento.setAlternativo(attributes.getValue("alternativo"));
+			argumento.setAuxiliar(attributes.getValue("auxiliar"));
+			argumento.setDescripcion(attributes.getValue("descripcion"));
+			argumento.setHabilitado(attributes.getValue("enable"));
+			argumento.setNombre(attributes.getValue("nombre"));
+			argumento.setOptional(attributes.getValue("optional"));
+			argumento.setOrden(attributes.getValue("orden"));
+			argumento.setSeparador(attributes.getValue("separador"));
+			argumento.setTipo(attributes.getValue("tipo"));
+			}
 			
-		}
-		
-		if((qName.equals("argumento"))&&(attributes.getValue("tipo")=="Date"))
-		{
+			if(attributes.getValue("tipo").equals("Date"))
+			{
 			ArgumentoDate argumento = new ArgumentoDate();
 			ultimaAplicacion.argumentos.add(argumento);
-			List<Regla> reglas = new ArrayList<Regla>();
-	
-			argumento.setReglas(reglas);
+			this.ultimoArgumento = argumento;
 			argumento.setAlternativo(attributes.getValue("alternativo"));
 			argumento.setAuxiliar(attributes.getValue("auxiliar"));
 			argumento.setDescripcion(attributes.getValue("descripcion"));
@@ -212,10 +187,9 @@ public class Lanzador extends DefaultHandler
 			argumento.setSeparador(attributes.getValue("separador"));
 			argumento.setTipo(attributes.getValue("tipo"));
 			argumento.setFormato(attributes.getValue("formato"));
-			
-			this.ultimoArgumento = argumento;
+			}
 		}
-		
+			
 		if(qName.equals("validacion"))
 		{
 			Validacion validacion = new Validacion();
@@ -229,10 +203,6 @@ public class Lanzador extends DefaultHandler
 		{
 			Accion accion = new Accion();
 			ultimaValidacion.accion=accion;
-			List<Constante> constantes = new ArrayList<Constante>();
-			List<Parametro> parametros = new ArrayList<Parametro>();
-			accion.setConstantes(constantes);
-			accion.setParametros(parametros);
 			accion.setNombre(attributes.getValue("nombre"));
 			
 			this.ultimaAccion = accion;
@@ -240,7 +210,7 @@ public class Lanzador extends DefaultHandler
 		
 		if(qName.equals("etiqueta"))
 		{
-			ultimoArgumento.setLabel(attributes.getValue("etiqueta"));
+			this.etiqueta = true;
 		}
 		
 		if(qName.equals("parametro"))
@@ -261,17 +231,18 @@ public class Lanzador extends DefaultHandler
 		
 		if(qName.equals("salida"))
 		{
-			ultimoComando.salida = (attributes.getValue("salida"));
+			this.salida=true;;
 		}
 		if(qName.equals("regla"))
 		{
 			Regla regla = new Regla();
-			regla.setValidacionSobreCampo(attributes.getValue("regla"));
 			ultimoArgumento.reglas.add(regla);
+			this.ultimaRegla = regla;
+			this.regla = true;
 		}
 		if(qName.equals("valor"))
 		{
-			ultimoArgumentoCombo.valores.add(attributes.getValue("valor"));
+			this.valor=true;
 		}
 		
 	}
@@ -303,4 +274,34 @@ public class Lanzador extends DefaultHandler
 		}
 	}
 
+	public void characters(char ch[], int start, int length)
+	{
+		if(salida)
+		{
+			ultimoComando.setSalida(new String(ch, start, length));
+			this.salida = false;
+		}
+		
+		if(etiqueta)
+		{
+			if(ultimoArgumento!=null)
+			{
+			ultimoArgumento.setLabel(new String(ch, start, length));
+			this.etiqueta = false;
+			}
+		}
+		if(regla)
+		{
+			ultimaRegla.setValidacionSobreCampo(new String(ch, start, length));
+			this.regla = false;
+		}
+		if(valor)
+		{
+			ultimoArgumentoCombo.agregarValor(new String(ch, start, length));
+			this.valor = false;
+		}
+		
+		
+	}
+	
 }
