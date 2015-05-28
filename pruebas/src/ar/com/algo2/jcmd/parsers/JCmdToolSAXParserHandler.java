@@ -105,7 +105,7 @@ public class JCmdToolSAXParserHandler extends DefaultHandler {
 				argumento.setOrden(attributes.getValue("orden") != null ? new Long(attributes.getValue("orden")) : null);
 				argumento.setSeparador(attributes.getValue("separador"));
 				argumento.setTipo(attributes.getValue("tipo"));
-				argumento.setMask(attributes.getValue("mascara"));
+				argumento.setMask(attributes.getValue("mask"));
 				
 				lanzador.getUltimoComando().getUltimaAplicacion().addArgumento(argumento);
 				
