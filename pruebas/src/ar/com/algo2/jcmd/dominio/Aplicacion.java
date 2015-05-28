@@ -77,4 +77,11 @@ public class Aplicacion {
 		
 	}
 	
+	public Validacion getUltimaValidacion() {
+		return this.validaciones.get(this.validaciones.size()-1);
+	}
+	public Argumento getUltimoArgumento() {
+		return this.argumentos.get(this.argumentos.size()-1);
+	}
+	
 }

@@ -71,6 +71,10 @@ public class Comando {
 				+ ", descripcion=" + descripcion + ", output=" + output
 				+ ", aplicaciones=" + "[\n" + buff.toString() + "]";
 	}
+
+	public Aplicacion getUltimaAplicacion() {
+		return this.aplicaciones.get(this.aplicaciones.size()-1);
+	}
 	
 		
 	

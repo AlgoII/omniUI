@@ -104,6 +104,10 @@ public class Argumento {
 	}
 	
 	public Argumento() {}
+
+	public Regla getUltimaRegla() {
+		return this.reglas.get(this.reglas.size()-1);
+	}
 	
 }
 

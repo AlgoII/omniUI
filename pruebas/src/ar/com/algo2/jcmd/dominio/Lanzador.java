@@ -35,6 +35,10 @@ public class Lanzador {
 	public void setComandos(List<Comando> comandos) {
 		this.comandos = comandos;
 	}
+
+	public Comando getUltimoComando() {		
+		return this.comandos.get(this.comandos.size()-1);
+	}
 		
 
 }

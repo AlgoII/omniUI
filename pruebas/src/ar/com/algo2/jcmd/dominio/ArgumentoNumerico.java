@@ -17,6 +17,8 @@ public class ArgumentoNumerico extends Argumento {
 		this.mask = mask;
 	}
 			
+	public ArgumentoNumerico() {}
+
 	@Override
 	public String toString() {
 		return "ArgumentoNumerico [mask=" + mask + ", toString()="

@@ -17,6 +17,8 @@ public class ArgumentoDate extends Argumento {
 		this.formato = formato;
 	}
 
+	public ArgumentoDate() {}
+
 	@Override
 	public String toString() {
 		return "ArgumentoDate [formato=" + formato + ", toString()="

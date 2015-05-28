@@ -22,4 +22,6 @@ public class Regla {
 		this.validacionSobreCampo = validacionSobreCampo;
 	}
 
+	public Regla() {}
+
 }
