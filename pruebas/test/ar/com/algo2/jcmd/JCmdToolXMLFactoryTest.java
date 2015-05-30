@@ -28,7 +28,7 @@ public class JCmdToolXMLFactoryTest extends TestCase {
 
 		xmlFactory.init(new JCmdToolXStreamParser());
 
-		Lanzador lanzador = xmlFactory.getLanzadorFromXml("test.xml");
+		Lanzador lanzador = xmlFactory.getLanzadorFromXml("test.xml");	
 
 		assertNotNull(lanzador);		
 	}
@@ -39,7 +39,7 @@ public class JCmdToolXMLFactoryTest extends TestCase {
 		xmlFactory.init(new JCmdToolSAXParser());
 
 		Lanzador lanzador = xmlFactory.getLanzadorFromXml("test.xml");
-
+		
 		assertNotNull(lanzador);
 
 	}
@@ -252,18 +252,17 @@ public class JCmdToolXMLFactoryTest extends TestCase {
 	}
 	
 	private static void evalValidaciones(Lanzador lanzador) {
-		
-
+				
 		assertEquals(2,lanzador.getComandos().get(0).getAplicaciones().get(0).getValidaciones().size());
 
 		assertEquals("habilitarCampoSiCheckboxEstaEnTrue",lanzador.getComandos().get(0).getAplicaciones().get(0).getValidaciones().get(0).getAccion().getNombre());
 		assertEquals("-v",lanzador.getComandos().get(0).getAplicaciones().get(0).getValidaciones().get(0).getAccion().getParametros().get(0).getValor());
 		assertEquals("pathVerbose",lanzador.getComandos().get(0).getAplicaciones().get(0).getValidaciones().get(0).getAccion().getParametros().get(1).getValor());
 
-		assertEquals("mostrarFechaEnFormatoLatino",lanzador.getComandos().get(0).getAplicaciones().get(0).getValidaciones().get(1).getAccion().getNombre());
-		assertEquals("--date",lanzador.getComandos().get(0).getAplicaciones().get(0).getValidaciones().get(1).getAccion().getParametros().get(0).getValor());
-		assertEquals("La fecha de hoy es: ",lanzador.getComandos().get(0).getAplicaciones().get(0).getValidaciones().get(1).getAccion().getConstantes().get(0).getValor());
-
+		assertEquals("mostrarFechaEnFormatoLatino",lanzador.getComandos().get(0).getAplicaciones().get(0).getValidaciones().get(1).getAccion().getNombre());		
+		assertEquals("La fecha de hoy es: "	,lanzador.getComandos().get(0).getAplicaciones().get(0).getValidaciones().get(1).getAccion().getParametros().get(0).getValor());
+		assertEquals("--date",lanzador.getComandos().get(0).getAplicaciones().get(0).getValidaciones().get(1).getAccion().getParametros().get(1).getValor());
+		
 	}
 
 

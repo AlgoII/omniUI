@@ -1,6 +1,6 @@
 package ar.com.algo2.jcmd.dominio;
 
-public class Constante {
+public class Constante implements ParametroValidacion {
 
 	private String valor;
 

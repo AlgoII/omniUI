@@ -274,7 +274,7 @@ public class JCmdToolSAXParserHandler extends DefaultHandler {
 
 		if(constante)
 		{
-			lanzador.getUltimoComando().getUltimaAplicacion().getUltimaValidacion().getAccion().addConstante(new Constante(new String(ch, start, length)));
+			lanzador.getUltimoComando().getUltimaAplicacion().getUltimaValidacion().getAccion().addParametro(new Constante(new String(ch, start, length)));
 			this.constante = false;
 		}
 

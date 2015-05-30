@@ -1,6 +1,6 @@
 package ar.com.algo2.jcmd.dominio;
 
-public class Parametro {
+public class Parametro implements ParametroValidacion {
 	
 	private String valor;
 
