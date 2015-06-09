@@ -35,15 +35,13 @@ public class Argumento {
 	public Argumento(String etiqueta, Boolean optional) {
 		super();
 		this.etiqueta = etiqueta;
-//		this.valor = valor;
 		this.optional = optional;
 	}
 
 	@Override
 	public String toString() {
-		return "Argumento [etiqueta=" + etiqueta + ", optional=" + optional	+ "]";
+		return "Argumento [etiqueta=" + etiqueta + ", optional=" + optional + "]";
 	}
-		
 	
 
 }

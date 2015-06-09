@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,8 +20,10 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.Bindings;
 
+
 import ar.com.ejemplo.swing.domain.Argumento;
 import ar.com.ejemplo.swing.domain.ArgumentoBoolean;
+import ar.com.ejemplo.swing.domain.ArgumentoCombo;
 import ar.com.ejemplo.swing.domain.ArgumentoTexto;
 
 @SuppressWarnings("serial")
@@ -89,6 +92,21 @@ public class PantallaPrincipal extends JFrame {
 
 				panel.add(checkbox);
 
+			} else if (argumento instanceof ArgumentoCombo) {
+								
+				JComboBox combo = new JComboBox(((ArgumentoCombo) argumento).getValores().toArray());
+				combo.setEditable(false);
+				combo.setSelectedItem(null);
+								
+				BeanProperty<ArgumentoCombo, String> argumentoComboValorProperty = BeanProperty.create("valor");
+				BeanProperty<JComboBox,String> comboSelectedItemProperty = BeanProperty.create("selectedItem");
+
+				Binding<ArgumentoCombo, String, JComboBox, String> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, (ArgumentoCombo) argumento, argumentoComboValorProperty, combo, comboSelectedItemProperty); 
+				valorBinding.bind();
+				
+				panel.add(etiqueta);
+				panel.add(combo);				
+				
 			}
 
 		}
