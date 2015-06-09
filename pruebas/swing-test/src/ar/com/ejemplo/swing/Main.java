@@ -19,7 +19,7 @@ public class Main {
 					List<Argumento> argumentos = new ArrayList<Argumento>();
 					
 					argumentos.add(new Argumento("Campo 1", "", new Boolean(true)));
-					argumentos.add(new Argumento("Campo 2", "", new Boolean(true)));
+					argumentos.add(new Argumento("Campo 2", "", new Boolean(false)));
 					argumentos.add(new Argumento("Campo 3", "", new Boolean(true)));
 					
 					PantallaPrincipal pantalla = new PantallaPrincipal("pantalla de prueba");

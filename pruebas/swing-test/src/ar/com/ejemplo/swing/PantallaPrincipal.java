@@ -1,6 +1,9 @@
 package ar.com.ejemplo.swing;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+
 import java.util.List;
 
 import javax.swing.JButton;
@@ -35,36 +38,50 @@ public class PantallaPrincipal extends JFrame {
 	}
 
 	public void dibujar() {
-				
+
 		JPanel panel = new JPanel(new FlowLayout());
-		
-		for (Argumento a: this.argumentos) {
-			
-			JLabel etiqueta = new JLabel (a.getEtiqueta());
+
+		for (Argumento argumento: this.argumentos) {
+
+			JLabel etiqueta = new JLabel (argumento.getEtiqueta());
 			JTextField campo = new JTextField(10);
 
 			BeanProperty<Argumento, String> valorProperty = BeanProperty.create("valor"); 
 			BeanProperty<JTextField, String> campoProperty = BeanProperty.create("text");
-			
-			Binding<Argumento, String, JTextField, String> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, a, valorProperty, campo, campoProperty); 
+
+			Binding<Argumento, String, JTextField, String> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, argumento, valorProperty, campo, campoProperty); 
 			valorBinding.bind();
-			
+
 			panel.add(etiqueta);
 			panel.add(campo);
-						
+
+			if (argumento.getOptional().booleanValue() == false) {
+
+				JLabel obligatorio = new JLabel("obligatorio");
+
+				obligatorio.setForeground(Color.RED);
+				obligatorio.setFont(new Font("Serif",Font.ITALIC,12));
+				
+				panel.add(obligatorio);
+				
+				campo.getDocument().addDocumentListener(new ObligatorioListener(obligatorio,campo));
+				
+			}
+
+
 		}
-		
+
 		JButton aceptar = new JButton("aceptar");
 		aceptar.addActionListener(new AceptarListener(this.argumentos));		
-		
+
 		panel.add(aceptar);
-							
+
 		this.setContentPane(panel);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.pack();
-//		this.setSize(300,200); //TODO el pack ajusta todo
+		//		this.setSize(300,200); //TODO el pack ajusta todo
 		this.setLocationRelativeTo(null);
-		
+
 	}
 
 
