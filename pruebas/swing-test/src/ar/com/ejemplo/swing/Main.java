@@ -6,6 +6,8 @@ import java.util.List;
 import javax.swing.UIManager;
 
 import ar.com.ejemplo.swing.domain.Argumento;
+import ar.com.ejemplo.swing.domain.ArgumentoBoolean;
+import ar.com.ejemplo.swing.domain.ArgumentoTexto;
 
 public class Main {
 
@@ -18,9 +20,9 @@ public class Main {
 					
 					List<Argumento> argumentos = new ArrayList<Argumento>();
 					
-					argumentos.add(new Argumento("Campo 1", "", new Boolean(true)));
-					argumentos.add(new Argumento("Campo 2", "", new Boolean(false)));
-					argumentos.add(new Argumento("Campo 3", "", new Boolean(true)));
+					argumentos.add(new ArgumentoTexto("Campo 1", new Boolean(true), ""));
+					argumentos.add(new ArgumentoTexto("Campo 2", new Boolean(false), ""));
+					argumentos.add(new ArgumentoBoolean("Campo 3", new Boolean(true), new Boolean(false))); //TODO: verificar tema valor por defecto
 					
 					PantallaPrincipal pantalla = new PantallaPrincipal("pantalla de prueba");
 					pantalla.setDomainForTest(argumentos);						

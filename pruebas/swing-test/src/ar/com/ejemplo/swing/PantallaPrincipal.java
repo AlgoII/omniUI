@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,6 +20,8 @@ import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.Bindings;
 
 import ar.com.ejemplo.swing.domain.Argumento;
+import ar.com.ejemplo.swing.domain.ArgumentoBoolean;
+import ar.com.ejemplo.swing.domain.ArgumentoTexto;
 
 @SuppressWarnings("serial")
 public class PantallaPrincipal extends JFrame {
@@ -44,30 +47,49 @@ public class PantallaPrincipal extends JFrame {
 		for (Argumento argumento: this.argumentos) {
 
 			JLabel etiqueta = new JLabel (argumento.getEtiqueta());
-			JTextField campo = new JTextField(10);
 
-			BeanProperty<Argumento, String> valorProperty = BeanProperty.create("valor"); 
-			BeanProperty<JTextField, String> campoProperty = BeanProperty.create("text");
+			if (argumento instanceof ArgumentoTexto) {
 
-			Binding<Argumento, String, JTextField, String> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, argumento, valorProperty, campo, campoProperty); 
-			valorBinding.bind();
+				JTextField campo = new JTextField(10);			
 
-			panel.add(etiqueta);
-			panel.add(campo);
+				BeanProperty<ArgumentoTexto, String> argumentoTextoValorProperty = BeanProperty.create("valor");
+				BeanProperty<JTextField, String> campoProperty = BeanProperty.create("text");
 
-			if (argumento.getOptional().booleanValue() == false) {
+				Binding<ArgumentoTexto, String, JTextField, String> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, (ArgumentoTexto) argumento, argumentoTextoValorProperty, campo, campoProperty); 
+				valorBinding.bind();
 
-				JLabel obligatorio = new JLabel("obligatorio");
+				panel.add(etiqueta);
+				panel.add(campo);
 
-				obligatorio.setForeground(Color.RED);
-				obligatorio.setFont(new Font("Serif",Font.ITALIC,12));
-				
-				panel.add(obligatorio);
-				
-				campo.getDocument().addDocumentListener(new ObligatorioListener(obligatorio,campo));
-				
+				//TODO: ESTE OPCIONAL ES PROPIO DEL ARGUMENTO NO DEL TIPO - pero por ahora considera solo campos de texto
+				if (argumento.getOptional().booleanValue() == false) {
+
+					JLabel obligatorio = new JLabel("obligatorio");
+
+					obligatorio.setForeground(Color.RED);
+					obligatorio.setFont(new Font("Serif",Font.ITALIC,12));
+
+					panel.add(obligatorio);
+
+					campo.getDocument().addDocumentListener(new ObligatorioListener(obligatorio,campo));					
+
+				}
+
+
+			} else if (argumento instanceof ArgumentoBoolean) {
+
+				JCheckBox checkbox = new JCheckBox(argumento.getEtiqueta());
+				checkbox.setSelected(((ArgumentoBoolean) argumento).getValor());
+
+				BeanProperty<ArgumentoBoolean, Boolean> argumentoBooleanValorProperty = BeanProperty.create("valor");
+				BeanProperty<JCheckBox,Boolean> checkboxProperty = BeanProperty.create("selected");
+
+				Binding<ArgumentoBoolean, Boolean, JCheckBox, Boolean> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, (ArgumentoBoolean) argumento, argumentoBooleanValorProperty, checkbox, checkboxProperty); 
+				valorBinding.bind();
+
+				panel.add(checkbox);
+
 			}
-
 
 		}
 
