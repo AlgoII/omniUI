@@ -27,8 +27,8 @@ public class ArgumentoCombo extends Argumento {
 		super();
 	}
 
-	public ArgumentoCombo(String etiqueta, Boolean optional, List<String> valores) {
-		super(etiqueta, optional);
+	public ArgumentoCombo(String etiqueta, Boolean optional, String tipo, List<String> valores) {
+		super(etiqueta, optional, tipo);
 		this.valores = valores;
 	}
 	

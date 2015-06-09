@@ -6,7 +6,16 @@ public class Argumento {
 	private String etiqueta;
 //	private String valor;
 	private Boolean optional;
+	private String tipo;
 	
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 	public String getEtiqueta() {
 		return etiqueta;
 	}
@@ -32,16 +41,18 @@ public class Argumento {
 	
 	public Argumento() {}
 	
-	public Argumento(String etiqueta, Boolean optional) {
+	public Argumento(String etiqueta, Boolean optional, String tipo) {
 		super();
 		this.etiqueta = etiqueta;
 		this.optional = optional;
+		this.tipo = tipo;
 	}
 
 	@Override
 	public String toString() {
-		return "Argumento [etiqueta=" + etiqueta + ", optional=" + optional + "]";
+		return "Argumento [etiqueta=" + etiqueta + ", optional=" + optional	+ ", tipo=" + tipo + "]";
 	}
-	
+
+
 
 }

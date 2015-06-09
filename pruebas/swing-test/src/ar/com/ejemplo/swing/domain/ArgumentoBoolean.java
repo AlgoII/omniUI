@@ -16,8 +16,8 @@ public class ArgumentoBoolean extends Argumento {
 		super();
 	}
 
-	public ArgumentoBoolean(String etiqueta, Boolean optional, Boolean valor) {
-		super(etiqueta, optional);	
+	public ArgumentoBoolean(String etiqueta, Boolean optional, String tipo, Boolean valor) {
+		super(etiqueta, optional, tipo);	
 		this.valor = valor;
 	}
 

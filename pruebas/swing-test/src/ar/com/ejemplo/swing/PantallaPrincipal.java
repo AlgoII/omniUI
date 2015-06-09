@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -51,7 +52,21 @@ public class PantallaPrincipal extends JFrame {
 
 			JLabel etiqueta = new JLabel (argumento.getEtiqueta());
 
-			if (argumento instanceof ArgumentoTexto) {
+			if (argumento.getTipo().equalsIgnoreCase("Search")) { //TODO: validar si hace falta quedarse con el Argumento.tipo o con el resultado de instanceof
+
+				JTextField campo = new JTextField(10);			
+				campo.setEditable(false);
+			
+				JButton seleccionarArchivo = new JButton("Buscar");
+				seleccionarArchivo.addActionListener(new SeleccionarArchivoListener((ArgumentoTexto) argumento, campo));
+				
+				//TODO: acá el binding lo hace el listener
+
+				panel.add(etiqueta);
+				panel.add(campo);
+				panel.add(seleccionarArchivo);
+								
+			} else if (argumento instanceof ArgumentoTexto) {
 
 				JTextField campo = new JTextField(10);			
 
@@ -92,21 +107,22 @@ public class PantallaPrincipal extends JFrame {
 
 				panel.add(checkbox);
 
+
 			} else if (argumento instanceof ArgumentoCombo) {
-								
+
 				JComboBox combo = new JComboBox(((ArgumentoCombo) argumento).getValores().toArray());
 				combo.setEditable(false);
 				combo.setSelectedItem(null);
-								
+
 				BeanProperty<ArgumentoCombo, String> argumentoComboValorProperty = BeanProperty.create("valor");
 				BeanProperty<JComboBox,String> comboSelectedItemProperty = BeanProperty.create("selectedItem");
 
 				Binding<ArgumentoCombo, String, JComboBox, String> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, (ArgumentoCombo) argumento, argumentoComboValorProperty, combo, comboSelectedItemProperty); 
 				valorBinding.bind();
-				
+
 				panel.add(etiqueta);
 				panel.add(combo);				
-				
+
 			}
 
 		}
@@ -119,7 +135,7 @@ public class PantallaPrincipal extends JFrame {
 		this.setContentPane(panel);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.pack();
-		//		this.setSize(300,200); //TODO el pack ajusta todo
+//		this.setSize(300,200); //TODO el pack ajusta todo
 		this.setLocationRelativeTo(null);
 
 	}

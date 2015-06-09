@@ -2,7 +2,7 @@ package ar.com.ejemplo.swing.domain;
 
 public class ArgumentoTexto extends Argumento {
 
-	private String valor;
+	private String valor; //en el caso de Search, sería el path del archivo
 
 	public String getValor() {
 		return valor;
@@ -16,8 +16,8 @@ public class ArgumentoTexto extends Argumento {
 		super();
 	}
 
-	public ArgumentoTexto(String etiqueta, Boolean optional, String valor) {
-		super(etiqueta, optional);
+	public ArgumentoTexto(String etiqueta, Boolean optional, String tipo, String valor) {
+		super(etiqueta, optional, tipo);
 		this.valor = valor;
 	}
 
