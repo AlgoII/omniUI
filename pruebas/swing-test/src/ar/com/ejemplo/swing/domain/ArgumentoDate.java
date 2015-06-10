@@ -1,5 +1,7 @@
 package ar.com.ejemplo.swing.domain;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ArgumentoDate extends Argumento {
@@ -27,13 +29,30 @@ public class ArgumentoDate extends Argumento {
 		super(etiqueta, optional, tipo);
 		this.formato = formato;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "ArgumentoDate [valor=" + valor + ", formato=" + formato	+ ", toString()=" + super.toString() + "]";
-	}
-	
-	
 
+		DateFormat df;
+
+		if (this.formato != null && !this.formato.equalsIgnoreCase(""))		
+			df = new SimpleDateFormat(this.formato);
+		else 
+			df = new SimpleDateFormat("dd/MM/yyyy"); //formato por defecto
+
+		String valorConFormato = "";
+
+		if (this.valor != null)
+			valorConFormato= df.format(this.valor);
+
+		return "ArgumentoDate [valor=" + valorConFormato + ", formato=" + formato + ", toString()=" + super.toString() + "]";
+	}
 
 }
+
+
+
+
+
+
+

@@ -18,16 +18,6 @@ public class SeleccionarArchivoListener implements ActionListener {
 		this.campo = campo;
 	}
 
-//	public ArgumentoTexto getArgumento() {
-//		return argumento;
-//	}
-//
-//	public void setArgumento(ArgumentoTexto argumento) {
-//		this.argumento = argumento;
-//	}
-
-	
-//	TODO: manejo de excepciones!!
 	public void actionPerformed(ActionEvent e) {
 
 		JFileChooser jfc = new JFileChooser();			

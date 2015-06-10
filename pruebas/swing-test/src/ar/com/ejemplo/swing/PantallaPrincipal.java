@@ -198,11 +198,8 @@ public class PantallaPrincipal extends JFrame {
 				JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 				JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new ArgumentoDateFormatter(((ArgumentoDate) argumento).getFormato()));
 				
-//				TODO: verificar si se puede agregar listener al DatePicker
-//				datePicker.addActionListener(actionListener);
-				
-//				TODO: binding JDatePicker con valor Date de ArgumentoDate
-								
+				datePicker.addActionListener(new DatePickerListener((ArgumentoDate) argumento, datePicker));
+												
 				panel.add(etiqueta);
 				panel.add(datePicker);
 				
