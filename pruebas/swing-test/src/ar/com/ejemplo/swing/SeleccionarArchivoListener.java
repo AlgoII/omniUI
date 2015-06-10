@@ -26,6 +26,8 @@ public class SeleccionarArchivoListener implements ActionListener {
 //		this.argumento = argumento;
 //	}
 
+	
+//	TODO: manejo de excepciones!!
 	public void actionPerformed(ActionEvent e) {
 
 		JFileChooser jfc = new JFileChooser();			
