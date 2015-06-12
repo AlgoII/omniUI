@@ -1,8 +1,11 @@
 package ar.com.ejemplo.swing;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
+//import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -17,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.text.MaskFormatter;
 
@@ -54,48 +58,60 @@ public class PantallaPrincipal extends JFrame {
 		super(nombre);
 	}
 
+	
 	public void dibujar() throws Exception {
 
-		JPanel panel = new JPanel(new FlowLayout());
+		JPanel panel = new JPanel(new GridBagLayout());
 
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=0;
+		gbc.gridheight=1;
+		gbc.gridwidth=1;		
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.insets=new Insets(5,5,5,5);
+		
 		for (Argumento argumento: this.argumentos) {
 
 			JLabel etiqueta = new JLabel (argumento.getEtiqueta());
-
+			
 			if (argumento.getTipo().equalsIgnoreCase("Search")) {
 
-				JTextField campo = new JTextField(10);			
+				JTextField campo = new JTextField(10);
+//				JTextField campo = new JTextField();
 				campo.setEditable(false);
 
 				JButton seleccionarArchivo = new JButton("Buscar");
 				seleccionarArchivo.addActionListener(new SeleccionarArchivoListener((ArgumentoTexto) argumento, campo));
+																						
+				panel.add(etiqueta,gbc); gbc.gridx++; 		
+				panel.add(campo,gbc); gbc.gridx++;					
+				panel.add(seleccionarArchivo,gbc);
 
-				panel.add(etiqueta);
-				panel.add(campo);
-				panel.add(seleccionarArchivo);
-
+				
 			} else if (argumento instanceof ArgumentoTexto) {
 
-				JTextField campo = new JTextField(10);			
+				JTextField campo = new JTextField(10);
 
 				BeanProperty<ArgumentoTexto, String> argumentoTextoValorProperty = BeanProperty.create("valor");
 				BeanProperty<JTextField, String> campoProperty = BeanProperty.create("text");
 
 				Binding<ArgumentoTexto, String, JTextField, String> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, (ArgumentoTexto) argumento, argumentoTextoValorProperty, campo, campoProperty); 
 				valorBinding.bind();
-
-				panel.add(etiqueta);
-				panel.add(campo);
-
-				//TODO: ESTE OPCIONAL ES PROPIO DEL ARGUMENTO NO DEL TIPO - pero por ahora considera solo campos de texto
+																	
+				panel.add(etiqueta,gbc); gbc.gridx++; 
+				panel.add(campo,gbc);
+				
 				if (argumento.getOptional().booleanValue() == false) {
 
 					JLabel obligatorio = new JLabel("obligatorio");
 
 					obligatorio.setForeground(Color.RED);
 					obligatorio.setFont(new Font("Serif",Font.ITALIC,12));
-
-					panel.add(obligatorio);
+							
+					gbc.gridx++;
+					panel.add(obligatorio,gbc);
 
 					campo.getDocument().addDocumentListener(new ObligatorioListener(obligatorio,campo));					
 
@@ -106,14 +122,15 @@ public class PantallaPrincipal extends JFrame {
 
 				JCheckBox checkbox = new JCheckBox(argumento.getEtiqueta());
 				checkbox.setSelected(((ArgumentoBoolean) argumento).getValor());
+				checkbox.setHorizontalTextPosition(SwingConstants.LEFT);
 
 				BeanProperty<ArgumentoBoolean, Boolean> argumentoBooleanValorProperty = BeanProperty.create("valor");
 				BeanProperty<JCheckBox,Boolean> checkboxProperty = BeanProperty.create("selected");
 
 				Binding<ArgumentoBoolean, Boolean, JCheckBox, Boolean> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, (ArgumentoBoolean) argumento, argumentoBooleanValorProperty, checkbox, checkboxProperty); 
 				valorBinding.bind();
-
-				panel.add(checkbox);
+				
+				panel.add(checkbox,gbc);
 
 
 			} else if (argumento instanceof ArgumentoCombo) {
@@ -127,11 +144,9 @@ public class PantallaPrincipal extends JFrame {
 
 				Binding<ArgumentoCombo, String, JComboBox, String> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, (ArgumentoCombo) argumento, argumentoComboValorProperty, combo, comboSelectedItemProperty); 
 				valorBinding.bind();
-
-				panel.add(etiqueta);
-				panel.add(combo);				
-
 				
+				panel.add(etiqueta,gbc); gbc.gridx++; 				
+				panel.add(combo,gbc);;				
 				
 			} else if (argumento instanceof ArgumentoNumber) {
 
@@ -143,7 +158,6 @@ public class PantallaPrincipal extends JFrame {
 					mask.setPlaceholderCharacter('0');	
 
 					campoNumerico = new JFormattedTextField(mask);
-					campoNumerico.setColumns(10);
 
 				} else {
 
@@ -185,8 +199,8 @@ public class PantallaPrincipal extends JFrame {
 				
 				valorBinding.bind();
 				
-				panel.add(etiqueta);
-				panel.add(campoNumerico);				
+				panel.add(etiqueta,gbc); gbc.gridx++; 				
+				panel.add(campoNumerico,gbc);				
 
 			} else if (argumento instanceof ArgumentoDate) {
 								
@@ -199,24 +213,32 @@ public class PantallaPrincipal extends JFrame {
 				JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new ArgumentoDateFormatter(((ArgumentoDate) argumento).getFormato()));
 				
 				datePicker.addActionListener(new DatePickerListener((ArgumentoDate) argumento, datePicker));
-												
-				panel.add(etiqueta);
-				panel.add(datePicker);
+				
+				panel.add(etiqueta,gbc); gbc.gridx++; 								
+				panel.add(datePicker,gbc);
 				
 			}
-		}
+			
+			gbc.gridx=0;
+			gbc.gridy++;
+			gbc.gridheight=1;
+			gbc.gridwidth=1;
+						
+		} //fin del for
 				
-		JButton aceptar = new JButton("aceptar");
+		JButton aceptar = new JButton("Ejecutar");
 		aceptar.addActionListener(new AceptarListener(this.argumentos));		
 		
-		panel.add(aceptar);
+		gbc.insets=new Insets(50,0,10,0);
+		gbc.gridx = 1; //TODO: ojo, esto hay que calcularlo
+		gbc.gridy = this.argumentos.size() + 3;
+		
+		panel.add(aceptar,gbc);
 
 		this.setContentPane(panel);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.pack();
-//		this.setSize(300,200); //TODO el pack ajusta todo
 		this.setLocationRelativeTo(null);
-
 	}
 
 }

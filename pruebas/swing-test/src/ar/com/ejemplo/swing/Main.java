@@ -36,8 +36,10 @@ public class Main {
 					argumentos.add(new ArgumentoNumber("Campo 5", new Boolean(true),"Number", "#")); //placeholder = 0					
 					argumentos.add(new ArgumentoDate("Campo 6", new Boolean(true),"Date","yyyyMMdd"));
 
+					
 					PantallaPrincipal pantalla = new PantallaPrincipal("pantalla de prueba");
 					pantalla.setDomainForTest(argumentos);
+					pantalla.setResizable(false); //TODO: validar si tiene que ser ajustable
 
 					try {
 						pantalla.dibujar();
