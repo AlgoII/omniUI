@@ -128,7 +128,7 @@ public class PantallaPrincipal extends JFrame {
 
 		JPanel panel = new JPanel(new GridBagLayout());
 
-		Border borde = BorderFactory.createMatteBorder(1,1,1,1, Color.BLACK);
+		Border borde = BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(1,1,1,1, Color.BLACK),aplicacion.getNombre());
 		panel.setBorder(borde);
 
 		GridBagConstraints gbc = new GridBagConstraints();
