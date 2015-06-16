@@ -37,7 +37,7 @@ public class Main {
 					argumentos.add(new ArgumentoDate("Campo 6", new Boolean(true),"Date","yyyyMMdd"));
 
 					
-					PantallaPrincipal pantalla = new PantallaPrincipal("pantalla de prueba");
+					PantallaPrincipal pantalla = new PantallaPrincipal("<omniUI>");
 					pantalla.setDomainForTest(argumentos);
 					pantalla.setResizable(false); //TODO: validar si tiene que ser ajustable
 

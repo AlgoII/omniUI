@@ -1,8 +1,6 @@
 package ar.com.ejemplo.swing;
 
 import java.awt.Color;
-//import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Properties;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -22,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.border.Border;
 import javax.swing.text.MaskFormatter;
 
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -62,33 +62,42 @@ public class PantallaPrincipal extends JFrame {
 	public void dibujar() throws Exception {
 
 		JPanel panel = new JPanel(new GridBagLayout());
+		
+		Border borde = BorderFactory.createMatteBorder(1,1,1,1, Color.BLACK);
+		panel.setBorder(borde);
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx=0;
 		gbc.gridy=0;
 		gbc.gridheight=1;
 		gbc.gridwidth=1;		
-		gbc.fill = GridBagConstraints.BOTH;
 		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.insets=new Insets(5,5,5,5);
+		gbc.fill = GridBagConstraints.NONE; //poner en NONE para que funcione el anchor - luego de setear el label se setea el BOTH
+		gbc.insets=new Insets(5,5,5,5);	
+		
+		int totalComponentesFila=0; //se probó con dos columnas de atributos pero no quedaba bien, solo se admite más de un componente si es un checkbox
 		
 		for (Argumento argumento: this.argumentos) {
 
 			JLabel etiqueta = new JLabel (argumento.getEtiqueta());
 			
 			if (argumento.getTipo().equalsIgnoreCase("Search")) {
-
+								
 				JTextField campo = new JTextField(10);
-//				JTextField campo = new JTextField();
 				campo.setEditable(false);
 
 				JButton seleccionarArchivo = new JButton("Buscar");
 				seleccionarArchivo.addActionListener(new SeleccionarArchivoListener((ArgumentoTexto) argumento, campo));
 																						
-				panel.add(etiqueta,gbc); gbc.gridx++; 		
+				gbc.gridy++; gbc.gridx=0; gbc.anchor = GridBagConstraints.EAST;
+				gbc.insets = new Insets(5,15,5,5); panel.add(etiqueta, gbc); gbc.insets = new Insets(5,5,5,5);
+				gbc.gridx++;
+				gbc.fill = GridBagConstraints.BOTH;
 				panel.add(campo,gbc); gbc.gridx++;					
 				panel.add(seleccionarArchivo,gbc);
-
+				
+				totalComponentesFila += 3;
+								
 				
 			} else if (argumento instanceof ArgumentoTexto) {
 
@@ -98,25 +107,18 @@ public class PantallaPrincipal extends JFrame {
 				BeanProperty<JTextField, String> campoProperty = BeanProperty.create("text");
 
 				Binding<ArgumentoTexto, String, JTextField, String> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, (ArgumentoTexto) argumento, argumentoTextoValorProperty, campo, campoProperty); 
-				valorBinding.bind();
-																	
-				panel.add(etiqueta,gbc); gbc.gridx++; 
+				valorBinding.bind();				
+												
+				gbc.gridy++; gbc.gridx=0; gbc.anchor = GridBagConstraints.EAST;
+				gbc.insets = new Insets(5,15,5,5); panel.add(etiqueta, gbc); gbc.insets = new Insets(5,5,5,5);
+				gbc.gridx++;
+				gbc.fill = GridBagConstraints.HORIZONTAL;				
+				gbc.ipady=6;				
 				panel.add(campo,gbc);
+				gbc.ipady=0;
 				
-				if (argumento.getOptional().booleanValue() == false) {
-
-					JLabel obligatorio = new JLabel("obligatorio");
-
-					obligatorio.setForeground(Color.RED);
-					obligatorio.setFont(new Font("Serif",Font.ITALIC,12));
-							
-					gbc.gridx++;
-					panel.add(obligatorio,gbc);
-
-					campo.getDocument().addDocumentListener(new ObligatorioListener(obligatorio,campo));					
-
-				}
-
+				totalComponentesFila += 2;
+				
 
 			} else if (argumento instanceof ArgumentoBoolean) {
 
@@ -130,8 +132,16 @@ public class PantallaPrincipal extends JFrame {
 				Binding<ArgumentoBoolean, Boolean, JCheckBox, Boolean> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, (ArgumentoBoolean) argumento, argumentoBooleanValorProperty, checkbox, checkboxProperty); 
 				valorBinding.bind();
 				
+				gbc.gridx++;
+				
+				//identación de flags
+				if (totalComponentesFila >= 6) {
+					gbc.gridy++; gbc.gridx=0;
+				}				
+					
 				panel.add(checkbox,gbc);
-
+				
+				totalComponentesFila += 1;
 
 			} else if (argumento instanceof ArgumentoCombo) {
 
@@ -145,8 +155,13 @@ public class PantallaPrincipal extends JFrame {
 				Binding<ArgumentoCombo, String, JComboBox, String> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, (ArgumentoCombo) argumento, argumentoComboValorProperty, combo, comboSelectedItemProperty); 
 				valorBinding.bind();
 				
-				panel.add(etiqueta,gbc); gbc.gridx++; 				
-				panel.add(combo,gbc);;				
+				gbc.gridy++; gbc.gridx=0; gbc.anchor = GridBagConstraints.EAST;
+				gbc.insets = new Insets(5,15,5,5); panel.add(etiqueta, gbc); gbc.insets = new Insets(5,5,5,5);
+				gbc.gridx++;
+				gbc.fill = GridBagConstraints.HORIZONTAL;
+				panel.add(combo,gbc);		
+				
+				totalComponentesFila += 2;
 				
 			} else if (argumento instanceof ArgumentoNumber) {
 
@@ -199,8 +214,15 @@ public class PantallaPrincipal extends JFrame {
 				
 				valorBinding.bind();
 				
-				panel.add(etiqueta,gbc); gbc.gridx++; 				
-				panel.add(campoNumerico,gbc);				
+				gbc.gridy++; gbc.gridx=0; gbc.anchor = GridBagConstraints.EAST;
+				gbc.insets = new Insets(5,15,5,5); panel.add(etiqueta, gbc); gbc.insets = new Insets(5,5,5,5);
+				gbc.gridx++;
+				gbc.fill = GridBagConstraints.HORIZONTAL;				
+				gbc.ipady=6;
+				panel.add(campoNumerico,gbc);	
+				gbc.ipady=0;
+				
+				totalComponentesFila += 2;
 
 			} else if (argumento instanceof ArgumentoDate) {
 								
@@ -214,24 +236,45 @@ public class PantallaPrincipal extends JFrame {
 				
 				datePicker.addActionListener(new DatePickerListener((ArgumentoDate) argumento, datePicker));
 				
-				panel.add(etiqueta,gbc); gbc.gridx++; 								
+				gbc.gridy++; gbc.gridx=0; gbc.anchor = GridBagConstraints.EAST;
+				gbc.insets = new Insets(5,15,5,5); panel.add(etiqueta, gbc); gbc.insets = new Insets(5,5,5,5);
+				gbc.gridx++;
+				gbc.fill = GridBagConstraints.HORIZONTAL;
 				panel.add(datePicker,gbc);
 				
+				totalComponentesFila += 2;
+				
 			}
+
+//TODO: para que sean 6 componentes por fila
+//			
+//			if (totalComponentesFila >= 6) {
+//				gbc.gridy++;
+//				gbc.gridx=0;
+//				totalComponentesFila=0;
+//			} else {
+//				gbc.gridx++;
+//			}
 			
-			gbc.gridx=0;
-			gbc.gridy++;
+			//por posible identación de n flags seguidos
+			if (totalComponentesFila >= 6) 
+				totalComponentesFila=0;
+						
 			gbc.gridheight=1;
 			gbc.gridwidth=1;
+			gbc.anchor = GridBagConstraints.CENTER;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.insets=new Insets(5,5,5,5);
 						
 		} //fin del for
 				
 		JButton aceptar = new JButton("Ejecutar");
-		aceptar.addActionListener(new AceptarListener(this.argumentos));		
+		aceptar.addActionListener(new AceptarListener(this,this.argumentos));		
 		
-		gbc.insets=new Insets(50,0,10,0);
-		gbc.gridx = 1; //TODO: ojo, esto hay que calcularlo
-		gbc.gridy = this.argumentos.size() + 3;
+		gbc.insets=new Insets(25,0,10,0);
+		gbc.fill=GridBagConstraints.NONE;
+		gbc.gridx = 1; 
+		gbc.gridy = this.argumentos.size();
 		
 		panel.add(aceptar,gbc);
 
