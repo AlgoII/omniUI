@@ -59,6 +59,11 @@ public class Aplicacion {
 	
 	public Aplicacion() {}
 	
+	public Aplicacion(String nombre, String descripcion) {
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+	}
+	
 	@Override
 	public String toString() {
 		

@@ -15,6 +15,7 @@ public class Argumento {
 	private Boolean habilitado;
 	private String separador;
 	private String nombre;
+	private String valor; //cada tipo en particular tiene su valor en ese tipo (por ej. ArgumentoDate tiene un valor de tipo Date //TODO: ¿el xstream se banca agregar atributos? 
 	private List<Regla> reglas = new ArrayList<Regla>();
 
 	public String getAlternativo() {
@@ -22,6 +23,12 @@ public class Argumento {
 	}
 	public void setAlternativo(String alternativo) {
 		this.alternativo = alternativo;
+	}
+	public String getValor() {
+		return valor;
+	}
+	public void setValor(String valor) {
+		this.valor = valor;
 	}
 	public Boolean getAuxiliar() {
 		return auxiliar;
@@ -95,16 +102,25 @@ public class Argumento {
 		for (Regla regla: this.reglas)
 			buff.append(regla.toString()).append(",");
 				
-		return "Argumento [orden=" + orden + ", tipo=" + tipo
+		return "Argumento [valor=" + valor + ", tipo=" + tipo
 				+ ", descripcion=" + descripcion + ", optional=" + optional
 				+ ", etiqueta=" + etiqueta + ", reglas=" + buff.toString()
 				+ ", alternativo=" + alternativo + ", auxiliar=" + auxiliar
 				+ ", habilitado=" + habilitado + ", separador=" + separador
-				+ ", nombre=" + nombre + "]";
+				+ ", nombre=" + nombre + ", orden=" + orden +
+				"]";
 	}
 	
 	public Argumento() {}
 
+	public Argumento(String nombre, String etiqueta, Boolean optional, String tipo, String valor) {
+		this.etiqueta=etiqueta;
+		this.nombre=nombre;
+		this.optional=optional;
+		this.tipo=tipo;
+		this.valor=valor;
+	}
+	
 	public Regla getUltimaRegla() {
 		return this.reglas.get(this.reglas.size()-1);
 	}
