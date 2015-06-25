@@ -355,7 +355,7 @@ public class PantallaPrincipal extends JFrame {
 		} //fin del for
 
 		JButton aceptar = new JButton("Ejecutar");
-		aceptar.addActionListener(new AceptarListener(this,aplicacion.getArgumentos()));		
+		aceptar.addActionListener(new AceptarListener(this,aplicacion));		
 
 		gbc.insets=new Insets(25,5,5,5);
 		gbc.fill=GridBagConstraints.NONE;

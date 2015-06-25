@@ -24,6 +24,7 @@ public class Main {
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					
+										
 					Aplicacion commit = new Aplicacion("Commit", "commitea cambios en repositorio local");
 					
 					commit.addArgumento(new Argumento("-m","Campo 1", new Boolean(true),"Text", ""));
@@ -38,7 +39,7 @@ public class Main {
 					commit.addArgumento(new ArgumentoComboBox("-f","Campo 4", new Boolean(true),"ComboBox","",valores));
 					
 					Comando git = new Comando();
-					git.setNombre("git");
+					git.setNombre("ejecutable"); //TODO: ejecutable -m "hola mundo" -d ejemplo.txt -v -f all
 					git.setAlias("Git");
 					git.setDescripcion("cliente para repositorios git");
 					git.setOutput(null);					
