@@ -44,7 +44,7 @@ public class ArgumentoBoolean extends Argumento {
 	@Override
 	public String toString() {
 		return "ArgumentoBoolean [valorInicial=" + valorInicial
-				+ ", valorTipo=" + valorBooleano + ", toString()="
+				+ ", valorBooleano=" + valorBooleano + ", toString()="
 				+ super.toString() + "]";
 	}
 

@@ -26,7 +26,10 @@
 					</argumento>
 					<argumento orden="6" nombre="-date" tipo="Date" descripcion="sexto parámetro (tipo Date de formato YYYYMMdd)" optional="true" formato="yyyyMMdd">
 						<etiqueta>Campo 6</etiqueta>
-					</argumento>																																
+					</argumento>	
+					<argumento orden="7" nombre="clave" tipo="Text" descripcion="séptimo parámetro" optional="true" separador="=">
+						<etiqueta>Campo 7</etiqueta>
+					</argumento>																																			
 				</argumentos>				
 			</aplicacion>
 		</aplicaciones>

@@ -40,7 +40,15 @@ public class AceptarListener implements ActionListener {
 				continue;
 			}
 
-			cmd.append(a.getNombre()).append(" ").append(a.getValor()).append(" ");
+			//skip de booleanos con valor falso
+			if (a.getTipo().equalsIgnoreCase("Boolean") && (a.getValor().equalsIgnoreCase("false") || a.getValor().equalsIgnoreCase("null")))			
+				continue;
+
+			if (a.getTipo().equalsIgnoreCase("Boolean") && (a.getValor().equalsIgnoreCase("true")))
+				cmd.append(a.getNombre()).append(a.getSeparador() == null || a.getSeparador().equalsIgnoreCase("") ? " " : a.getSeparador()).append(" ");
+			else
+				cmd.append(a.getNombre()).append(a.getSeparador() == null || a.getSeparador().equalsIgnoreCase("") ? " " : a.getSeparador()).append(a.getValor()).append(" ");
+
 		}
 
 		if (!argumentosObligatorioNoCompletados.isEmpty()) {
@@ -60,7 +68,7 @@ public class AceptarListener implements ActionListener {
 		}
 
 		try {
-			
+
 			//si es Windows le agrego cmd /c - está pendiente si es Linux, posiblemente haya que poner bash
 			Process p = Runtime.getRuntime().exec("" + (System.getProperty("os.name").toLowerCase().contains("Windows".toLowerCase()) == true ? "cmd /c": "") + cmd.toString());
 			BufferedReader bi = new BufferedReader (new InputStreamReader(p.getInputStream()));
@@ -71,7 +79,7 @@ public class AceptarListener implements ActionListener {
 
 			while ((lineaRta = bi.readLine()) != null) 
 				rta.append(lineaRta).append("\n");
-					
+
 			JOptionPane.showMessageDialog(this.frame, rta.toString(), "Resultado de la ejecución", JOptionPane.INFORMATION_MESSAGE);
 
 			bi.close();
