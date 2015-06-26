@@ -67,15 +67,19 @@ public class Main {
 //					lanzador.addComando(git);
 //					lanzador.addComando(ffmpeg);
 
+//-------------------------- LANZADOR FROM XML ---------------------------------------------//
 					JCmdToolXMLFactory xmlFactory = JCmdToolXMLFactory.getInstance();
-					xmlFactory.init(new JCmdToolXStreamParser());
-			//		xmlFactory.init(new JCmdToolSAXParser());
+//					xmlFactory.init(new JCmdToolXStreamParser());
+					xmlFactory.init(new JCmdToolSAXParser());
 			
 					Lanzador lanzador = xmlFactory.getLanzadorFromXml("test-ejecutable.xml");
 					
 					System.out.println(lanzador.toString());
 					
 					System.out.println(xmlFactory.getXmlFromLanzador(lanzador));
+//------------------------------------------------------------------------------------------//
+
+					System.out.println(lanzador.toString());
 					
 					JCmdToolFrame pantalla = new JCmdToolFrame("<omniUI>");
 

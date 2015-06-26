@@ -60,7 +60,7 @@ public class AceptarListener implements ActionListener {
 		}
 
 		try {
-
+			
 			//si es Windows le agrego cmd /c - está pendiente si es Linux, posiblemente haya que poner bash
 			Process p = Runtime.getRuntime().exec("" + (System.getProperty("os.name").toLowerCase().contains("Windows".toLowerCase()) == true ? "cmd /c": "") + cmd.toString());
 			BufferedReader bi = new BufferedReader (new InputStreamReader(p.getInputStream()));

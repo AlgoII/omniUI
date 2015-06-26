@@ -89,7 +89,8 @@ public class JCmdToolSAXParserHandler extends DefaultHandler {
 				argumento.setOrden(attributes.getValue("orden") != null ? new Long(attributes.getValue("orden")) : null);
 				argumento.setSeparador(attributes.getValue("separador"));
 				argumento.setTipo(attributes.getValue("tipo"));
-				argumento.setValorInicial(attributes.getValue("valorInicial") != null ? new Boolean(attributes.getValue("valorInicial")) : new Boolean(false));				
+				argumento.setValorInicial(attributes.getValue("valorInicial") != null ? new Boolean(attributes.getValue("valorInicial")) : new Boolean(false));
+				argumento.setValor("" + argumento.getValorBooleano());
 
 				lanzador.getUltimoComando().getUltimaAplicacion().addArgumento(argumento);
 				

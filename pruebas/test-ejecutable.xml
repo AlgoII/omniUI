@@ -13,14 +13,20 @@
 					<argumento orden="3" nombre="-v" tipo="Boolean" descripcion="tercer parámetro (tipo Boolean)" optional="true" valorInicial="false">
 						<etiqueta>Campo 3</etiqueta>
 					</argumento>
-					<argumento orden="4" nombre="-v" tipo="ComboBox" descripcion="cuarto parámetro (tipo ComboBox)" optional="true">
+					<argumento orden="4" nombre="-c" tipo="ComboBox" descripcion="cuarto parámetro (tipo ComboBox)" optional="true">
 						<etiqueta>Campo 4</etiqueta>
 						<valores>
 							<valor>all</valor>
 							<valor>normal</valor>
 							<valor>no</valor>
 						</valores>
-					</argumento>														
+					</argumento>
+					<argumento orden="5" nombre="-n" tipo="Number" descripcion="quinto parámetro (tipo numérico de un solo dígito)" optional="true" mask="#">
+						<etiqueta>Campo 5</etiqueta>
+					</argumento>
+					<argumento orden="6" nombre="-date" tipo="Date" descripcion="sexto parámetro (tipo Date de formato YYYYMMdd)" optional="true" formato="yyyyMMdd">
+						<etiqueta>Campo 6</etiqueta>
+					</argumento>																																
 				</argumentos>				
 			</aplicacion>
 		</aplicaciones>

@@ -210,7 +210,10 @@ public class JCmdToolFrame extends JFrame {
 				
 				BeanProperty<ArgumentoBoolean, String> argumentoBooleanValorProperty = BeanProperty.create("valor");
 				
-				//el biinding del selected ya estaría definido...
+				
+//TODO: para el parser de SAX no le gusta el valorBinding.bind().......
+				
+				//el binding del selected ya estaría definido...
 				Binding<ArgumentoBoolean, String, JCheckBox, Boolean> valorBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, (ArgumentoBoolean) argumento, argumentoBooleanValorProperty, checkbox, checkboxProperty); 
 				valorBinding.bind();
 				
@@ -227,7 +230,7 @@ public class JCmdToolFrame extends JFrame {
 				
 
 			} else if (argumento.getTipo().equalsIgnoreCase("ComboBox")) {
-
+				
 				JComboBox combo = new JComboBox(((ArgumentoComboBox) argumento).getValores().toArray());
 				combo.setEditable(false);
 				combo.setSelectedItem(null);
