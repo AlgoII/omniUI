@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lanzador>
+	<comando nombre="ejecutable" alias="Ejecutable" descripcion="ejecución de comandos batch">
+		<aplicaciones>
+			<aplicacion nombre="Ejecutable de comandos" descripcion="imprime por pantalla argumentos que se le pasan">
+				<argumentos>
+					<argumento orden="1" nombre="-m" tipo="Text" descripcion="primer parámetro" optional="true">
+						<etiqueta>Campo 1</etiqueta>
+					</argumento>
+					<argumento orden="2" nombre="-d" tipo="Search" descripcion="segundo parámetro (tipo Search)" optional="false">
+						<etiqueta>Campo 2</etiqueta>
+					</argumento>					
+					<argumento orden="3" nombre="-v" tipo="Boolean" descripcion="tercer parámetro (tipo Boolean)" optional="true" valorInicial="false">
+						<etiqueta>Campo 3</etiqueta>
+					</argumento>
+					<argumento orden="4" nombre="-c" tipo="ComboBox" descripcion="cuarto parámetro (tipo ComboBox)" optional="true">
+						<etiqueta>Campo 4</etiqueta>
+						<valores>
+							<valor>all</valor>
+							<valor>normal</valor>
+							<valor>no</valor>
+						</valores>
+					</argumento>
+					<argumento orden="5" nombre="-n" tipo="Number" descripcion="quinto parámetro (tipo numérico de un solo dígito)" optional="true" mask="#">
+						<etiqueta>Campo 5</etiqueta>
+					</argumento>
+					<argumento orden="6" nombre="-date" tipo="Date" descripcion="sexto parámetro (tipo Date de formato YYYYMMdd)" optional="true" formato="yyyyMMdd">
+						<etiqueta>Campo 6</etiqueta>
+					</argumento>	
+					<argumento orden="7" nombre="clave" tipo="Text" descripcion="séptimo parámetro" optional="true" separador="=">
+						<etiqueta>Campo 7</etiqueta>
+					</argumento>																																			
+				</argumentos>				
+			</aplicacion>
+		</aplicaciones>
+	</comando>
+</lanzador>
