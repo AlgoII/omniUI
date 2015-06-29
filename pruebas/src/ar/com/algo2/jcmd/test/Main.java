@@ -83,7 +83,7 @@ public class Main {
 					
 					JCmdToolFrame pantalla = new JCmdToolFrame("<omniUI>");
 
-					pantalla.setDomainForTest(lanzador);
+					pantalla.setDomain(lanzador);
 
 					pantalla.setResizable(false); //TODO: validar si tiene que ser ajustable
 

@@ -60,7 +60,7 @@ public class JCmdToolFrame extends JFrame {
 
 	private Lanzador lanzador; //dominio
 	
-	public void setDomainForTest(Lanzador lanzador) {
+	public void setDomain(Lanzador lanzador) {
 		this.lanzador = lanzador;			
 	}
 
@@ -81,8 +81,6 @@ public class JCmdToolFrame extends JFrame {
 	public JCmdToolFrame(String nombre) {
 		super(nombre);
 	}
-
-	//	http://zetcode.com/tutorials/javaswingtutorial/ -> el de los menúes
 
 	public void dibujar() throws Exception {
 
